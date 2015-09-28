@@ -111,7 +111,7 @@ class AuthController extends Controller
      */
     protected function getCredentials(Request $request)
     {
-        return $request->only($this->loginUsername(), 'password') + ['status' => 'active'];
+        return $request->only($this->loginUsername(), 'password') + ['status' => 'ACTIVE'];
     }
 
     /**
