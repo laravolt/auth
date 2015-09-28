@@ -21,4 +21,5 @@ return [
     'your_new_password'    => 'Password baru Anda adalah <strong>:password</strong>',
     'registration_success' => 'Registrasi berhasil. Silakan cek email Anda untuk melakukan aktivasi akun.',
     'activation_success'   => 'Aktivasi berhasil. Silakan login.',
+    'failed'               => 'Invalid credentials',
 ];

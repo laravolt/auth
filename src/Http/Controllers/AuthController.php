@@ -6,9 +6,11 @@ use Validator;
 use App\Entities\User;
 use Illuminate\Http\Request;
 use Laravolt\Auth\Activation;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class AuthController extends Controller
 {
@@ -23,9 +25,13 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-    use Activation {
-        Activation::postRegister insteadof AuthenticatesAndRegistersUsers;
+    protected $redirectAfterLogin = '/';
+    protected $redirectAfterLogout = '/';
+    protected $loginPath = '/auth/login';
+    protected $loginUsername = 'email';
+
+    use AuthenticatesUsers, RegistersUsers, Activation, ThrottlesLogins, ValidatesRequests {
+        Activation::postRegister insteadof RegistersUsers;
     }
 
     /**
@@ -43,16 +49,41 @@ class AuthController extends Controller
     }
 
     /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {
+        return view('auth::auth.login');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getRegister()
+    {
+        return view('auth::auth.register');
+    }
+
+    protected function authenticated($request, $user)
+    {
+        return redirect()->intended($this->redirectPath());
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'name'     => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:6',
         ]);
     }
@@ -60,14 +91,14 @@ class AuthController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => $data['password'],
         ]);
     }
@@ -75,12 +106,22 @@ class AuthController extends Controller
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     protected function getCredentials(Request $request)
     {
         return $request->only($this->loginUsername(), 'password') + ['status' => 'active'];
+    }
+
+    /**
+     * Get the failed login message.
+     *
+     * @return string
+     */
+    protected function getFailedLoginMessage()
+    {
+        return trans('auth::auth.failed');
     }
 
 }

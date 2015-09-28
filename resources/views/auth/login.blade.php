@@ -26,7 +26,7 @@
             <div class="ui equal width grid field">
                 <div class="column left aligned">
                     <div class="ui checkbox big">
-                        <input type="checkbox" name="remember">
+                        <input type="checkbox" name="remember" {{ request()->old('remember')?'checked':'' }}>
                         <label>@lang('auth::auth.remember')</label>
                     </div>
                 </div>

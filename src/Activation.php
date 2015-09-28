@@ -45,7 +45,7 @@ trait Activation
 
         DB::table('users_activation')->whereToken($token)->delete();
 
-        return redirect()->to('auth/login')->with('success', trans('auth::auth.activation_success'));
+        return redirect()->to($this->loginPath)->with('success', trans('auth::auth.activation_success'));
     }
 
     protected function createToken($user)
