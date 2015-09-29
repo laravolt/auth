@@ -2,8 +2,10 @@
 
 namespace Laravolt\Auth\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,4 +62,16 @@ class PasswordController extends Controller
         return view('auth::auth.reset')->with('token', $token);
     }
 
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->setPassword($password);
+        Auth::login($user);
+    }
 }
