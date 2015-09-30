@@ -2,7 +2,6 @@
 
 namespace Laravolt\Auth\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
