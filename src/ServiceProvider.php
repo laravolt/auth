@@ -157,6 +157,8 @@ class ServiceProvider extends BaseServiceProvider
             $router->post('password/reset', 'PasswordController@postReset');
             $router->get('auth/activate/{token}', 'AuthController@getActivate');
 
+            $router->get('auth/{provider}/login', 'SocialController@login');
+            $router->get('auth/{provider}/callback', 'SocialController@callback');
         });
     }
 
