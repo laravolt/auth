@@ -4,16 +4,7 @@
 
     <div class="ui segment very padded">
 
-        <div class="two ui buttons basic">
-            <a href="{{ url('auth/facebook/login') }}" class="ui button">
-                <i class="facebook icon"></i>
-                Facebook
-            </a>
-            <a href="{{ url('auth/github/login') }}" class="ui button">
-                <i class="github icon"></i>
-                Github
-            </a>
-        </div>
+        @include('auth::auth.social')
         <div class="ui divider section horizontal">Atau</div>
 
         <form class="ui large form" method="POST" action="{{ url('/auth/register') }}">
