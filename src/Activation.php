@@ -40,7 +40,7 @@ trait Activation
         }
 
         $user = User::findOrFail($userId);
-        $user->status = 'active';
+        $user->status = 'ACTIVE';
         $user->save();
 
         DB::table('users_activation')->whereToken($token)->delete();
