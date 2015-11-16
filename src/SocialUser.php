@@ -34,10 +34,10 @@ class SocialUser
             ]);
         }
 
-        $account = new SocialAccount();
-        $account->provider = $provider;
-        $account->provider_id = $socialAcount->getId();
+        $account = SocialAccount::firstOrCreate(['provider' => $provider, 'provider_id' => $socialAcount->getId()]);
         $user->socialAccounts()->save($account);
+
+        $account->touch();
 
         $this->auth->login($user, true);
     }
