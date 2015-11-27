@@ -47,7 +47,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerTranslations();
         $this->registerConfigurations();
 
-        if(! $this->app->routesAreCached() && config('auth.routes')) {
+        if(! $this->app->routesAreCached() && config('laravolt-auth.routes')) {
             $this->registerRoutes();
         }
     }
@@ -126,10 +126,10 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerConfigurations()
     {
         $this->mergeConfigFrom(
-            $this->packagePath('config/config.php'), 'auth'
+            $this->packagePath('config/config.php'), 'laravolt-auth'
         );
         $this->publishes([
-            $this->packagePath('config/config.php') => config_path('auth.php'),
+            $this->packagePath('config/config.php') => config_path('laravolt-auth.php'),
         ], 'config');
     }
 

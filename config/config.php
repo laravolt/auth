@@ -4,5 +4,6 @@
  */
 return [
     // automatic loading of routes through main service provider
-    'routes' => true
+    'routes' => true,
+    'layout' => 'auth::auth.layout'
 ];

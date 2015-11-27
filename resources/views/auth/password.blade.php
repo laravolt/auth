@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends(config('laravolt-auth.layout'))
 
 @section('content')
     @if (session('status'))
