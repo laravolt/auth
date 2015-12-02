@@ -53,8 +53,10 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogin()
+    public function getLogin(Request $request)
     {
+        request()->session()->flash('next', $request->get('next'));
+
         return view('auth::auth.login');
     }
 
@@ -68,8 +70,11 @@ class AuthController extends Controller
         return view('auth::auth.register');
     }
 
-    protected function authenticated($request, $user)
+    protected function authenticated(Request $request, $user)
     {
+        if($request->session()->has('next')) {
+            return redirect($request->session()->get('next'));
+        }
         return redirect()->intended($this->redirectPath());
     }
 
