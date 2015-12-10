@@ -4,6 +4,7 @@
  */
 return [
     // automatic loading of routes through main service provider
-    'routes' => true,
-    'layout' => 'auth::auth.layout'
+    'routes'         => true,
+    'layout'         => 'auth::auth.layout',
+    'default_status' => \Laravolt\Auth\Enum\UserStatus::PENDING
 ];
