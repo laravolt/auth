@@ -31,7 +31,7 @@ class SocialUser
                 'name'     => $socialAcount->getName(),
                 'email'    => $socialAcount->getEmail(),
                 'password' => Hash::make(Str::random(16)),
-                'status'   => 'ACTIVE',
+                'status'   => config('laravolt-auth.default.status'),
             ]);
         }
 
