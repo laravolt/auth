@@ -9,5 +9,5 @@ return [
     'services' => ['facebook', 'twitter', 'google', 'linkedin', 'github'],
     'default'  => [
         'status' => 'ACTIVE'
-    ],
+    ]
 ];
