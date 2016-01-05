@@ -13,7 +13,7 @@ class AddStatusToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('status')->default(\Laravolt\Auth\Enum\UserStatus::PENDING());
+            $table->string('status');
         });
     }
 
