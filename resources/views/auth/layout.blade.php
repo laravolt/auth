@@ -15,6 +15,7 @@
 
 <div class="ui centered stackable grid">
     <div class="column seven wide center aligned">
+        @include('auth::auth.error')
         @yield('content')
     </div>
 </div>
