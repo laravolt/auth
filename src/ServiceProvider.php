@@ -117,7 +117,8 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerRoutes()
     {
         $this->app['router']->group([
-            'namespace' => __NAMESPACE__ . '\Http\Controllers'
+            'namespace' => __NAMESPACE__ . '\Http\Controllers',
+            'middleware' => ['web']
         ], function($router) {
             $router->get('auth/login', 'AuthController@getLogin');
             $router->post('auth/login', 'AuthController@postLogin');

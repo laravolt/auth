@@ -1,6 +1,7 @@
 @extends(config('laravolt-auth.layout'))
 
 @section('content')
+
     @if (session('status'))
         <div class="ui positive message">
             <p>{{ session('status') }}</p>
