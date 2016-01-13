@@ -32,6 +32,7 @@ class AuthController extends Controller
 
     use AuthenticatesUsers, RegistersUsers, Activation, ThrottlesLogins, ValidatesRequests {
         Activation::postRegister insteadof RegistersUsers;
+        AuthenticatesUsers::getGuard insteadof RegistersUsers;
     }
 
     /**
