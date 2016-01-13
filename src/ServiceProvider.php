@@ -123,16 +123,20 @@ class ServiceProvider extends BaseServiceProvider
             $router->get('auth/login', 'AuthController@getLogin');
             $router->post('auth/login', 'AuthController@postLogin');
             $router->get('auth/logout', 'AuthController@getLogout');
-            $router->get('auth/register', 'AuthController@getRegister');
-            $router->post('auth/register', 'AuthController@postRegister');
+
             $router->get('password/email', 'PasswordController@getEmail');
             $router->post('password/email', 'PasswordController@postEmail');
             $router->get('password/reset/{token}', 'PasswordController@getReset');
             $router->post('password/reset', 'PasswordController@postReset');
-            $router->get('auth/activate/{token}', 'AuthController@getActivate');
 
             $router->get('auth/{provider}/login', 'SocialController@login');
             $router->get('auth/{provider}/callback', 'SocialController@callback');
+
+            if(config('laravolt-auth.allow_registration')) {
+                $router->get('auth/register', 'AuthController@getRegister');
+                $router->post('auth/register', 'AuthController@postRegister');
+                $router->get('auth/activate/{token}', 'AuthController@getActivate');
+            }
         });
     }
 

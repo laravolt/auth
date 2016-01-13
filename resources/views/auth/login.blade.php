@@ -45,11 +45,13 @@
 
     </div>
 
+    @if(config('laravolt-auth.allow_registration'))
     <div class="ui list small">
         <div class="item">
             @lang('auth::auth.not_registered_yet?')
             <a href="{{ url('auth/register') }}">@lang('auth::auth.register_here')</a>
         </div>
     </div>
+    @endif
 
 @endsection
