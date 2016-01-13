@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     public function redirectpath()
     {
-        return url('/');
+        return config('laravolt-auth.redirects.after_login', '/');
     }
 
     /**

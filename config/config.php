@@ -11,4 +11,7 @@ return [
         'status' => 'ACTIVE'
     ],
     'allow_registration' => true,
+    'redirects'          => [
+        'after_login' => '/',
+    ],
 ];
