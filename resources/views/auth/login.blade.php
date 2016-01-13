@@ -10,8 +10,10 @@
 
     <div class="ui segment very padded">
 
+        @if(config('laravolt-auth.services'))
         @include('auth::auth.social')
         <div class="ui divider section horizontal">Atau</div>
+        @endif
 
         <form class="ui form large" method="POST" action="{{ url('/auth/login') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
