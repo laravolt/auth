@@ -3,7 +3,6 @@
 namespace Laravolt\Auth\Http\Controllers;
 
 use Validator;
-use App\Entities\User;
 use Illuminate\Http\Request;
 use Laravolt\Auth\Activation;
 use Illuminate\Routing\Controller;
@@ -101,7 +100,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return app('auth.model')->create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
