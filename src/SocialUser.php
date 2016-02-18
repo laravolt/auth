@@ -24,7 +24,9 @@ class SocialUser
     {
         $userClass = config('auth.model');
 
-        $user = $userClass::whereEmail($socialAcount->getEmail())->first();
+        $email = $socialAcount->getEmail() !== null ? $socialAcount->getEmail() : str_slug($socialAcount->getName()) . '@twitter-no-email';
+
+        $user = $userClass::whereEmail($email)->first();
 
         if (!$user) {
             $user = $userClass::create([
