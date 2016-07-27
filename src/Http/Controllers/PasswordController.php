@@ -2,6 +2,8 @@
 
 namespace Laravolt\Auth\Http\Controllers;
 
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +24,7 @@ class PasswordController extends Controller
     |
     */
 
-    use ResetsPasswords, ValidatesRequests;
+    use ResetsPasswords, SendsPasswordResetEmails, ValidatesRequests;
 
     protected $redirectPath = '/';
 
@@ -42,9 +44,13 @@ class PasswordController extends Controller
      */
     public function getEmail()
     {
-        return view('auth::auth.password');
+        return view('auth::auth.forgot');
     }
 
+    public function postEmail(Request $request)
+    {
+        return $this->sendResetLinkEmail($request);
+    }
     /**
      * Display the password reset view for the given token.
      *

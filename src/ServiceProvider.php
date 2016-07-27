@@ -2,21 +2,22 @@
 
 namespace Laravolt\Auth;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 /**
  * Class PackageServiceProvider
  *
  * @package LaraLeague\Auth
- * @see http://laravel.com/docs/5.1/packages#service-providers
- * @see http://laravel.com/docs/5.1/providers
+ * @see http://laravel.com/docs/master/packages#service-providers
+ * @see http://laravel.com/docs/master/providers
  */
 class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
      *
-     * @see http://laravel.com/docs/5.1/providers#deferred-providers
+     * @see http://laravel.com/docs/master/providers#deferred-providers
      * @var bool
      */
     protected $defer = false;
@@ -24,7 +25,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Register the service provider.
      *
-     * @see http://laravel.com/docs/5.1/providers#the-register-method
+     * @see http://laravel.com/docs/master/providers#the-register-method
      * @return void
      */
     public function register()
@@ -34,7 +35,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Application is booting
      *
-     * @see http://laravel.com/docs/5.1/providers#the-boot-method
+     * @see http://laravel.com/docs/master/providers#the-boot-method
      * @return void
      */
     public function boot()
@@ -45,7 +46,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerTranslations();
         $this->registerConfigurations();
 
-        if(! $this->app->routesAreCached() && config('laravolt-auth.routes')) {
+        if(! $this->app->routesAreCached()) {
             $this->registerRoutes();
         }
     }
@@ -53,7 +54,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Register the package views
      *
-     * @see http://laravel.com/docs/5.1/packages#views
+     * @see http://laravel.com/docs/master/packages#views
      * @return void
      */
     protected function registerViews()
@@ -69,20 +70,18 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Register the package migrations
      *
-     * @see http://laravel.com/docs/5.1/packages#publishing-file-groups
+     * @see http://laravel.com/docs/master/packages#publishing-file-groups
      * @return void
      */
     protected function registerMigrations()
     {
-        $this->publishes([
-            $this->packagePath('database/migrations') => database_path('/migrations')
-        ], 'migrations');
+        $this->loadMigrationsFrom($this->packagePath('database/migrations'));
     }
 
     /**
      * Register the package translations
      *
-     * @see http://laravel.com/docs/5.1/packages#translations
+     * @see http://laravel.com/docs/master/packages#translations
      * @return void
      */
     protected function registerTranslations()
@@ -93,16 +92,16 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Register the package configurations
      *
-     * @see http://laravel.com/docs/5.1/packages#configuration
+     * @see http://laravel.com/docs/master/packages#configuration
      * @return void
      */
     protected function registerConfigurations()
     {
         $this->mergeConfigFrom(
-            $this->packagePath('config/config.php'), 'laravolt-auth'
+            $this->packagePath('config/config.php'), 'laravolt.auth'
         );
         $this->publishes([
-            $this->packagePath('config/config.php') => config_path('laravolt-auth.php'),
+            $this->packagePath('config/config.php') => config_path('laravolt/auth.php'),
         ], 'config');
     }
 
@@ -110,32 +109,41 @@ class ServiceProvider extends BaseServiceProvider
      * Register the package routes
      *
      * @warn consider allowing routes to be disabled
-     * @see http://laravel.com/docs/5.1/routing
-     * @see http://laravel.com/docs/5.1/packages#routing
+     * @see http://laravel.com/docs/master/routing
+     * @see http://laravel.com/docs/master/packages#routing
      * @return void
      */
     protected function registerRoutes()
     {
         $this->app['router']->group([
             'namespace' => __NAMESPACE__ . '\Http\Controllers',
-            'middleware' => ['web']
-        ], function($router) {
-            $router->get('auth/login', 'AuthController@getLogin');
-            $router->post('auth/login', 'AuthController@postLogin');
-            $router->get('auth/logout', 'AuthController@getLogout');
+            'middleware' => config('laravolt.auth.router.middleware'),
+            'prefix' => config('laravolt.auth.router.prefix'),
+            'as'    => 'auth::',
+        ], function(Router $router) {
 
-            $router->get('password/email', 'PasswordController@getEmail');
-            $router->post('password/email', 'PasswordController@postEmail');
-            $router->get('password/reset/{token}', 'PasswordController@getReset');
-            $router->post('password/reset', 'PasswordController@postReset');
+            // Authentication Routes...
+            $router->get('login', 'LoginController@showLoginForm')->name('login');
+            $router->post('login', 'LoginController@login')->name('login');
+            $router->any('logout', 'LoginController@logout')->name('logout');
 
-            $router->get('auth/{provider}/login', 'SocialController@login');
-            $router->get('auth/{provider}/callback', 'SocialController@callback');
+            // Password Reset Routes...
+            $router->get('forgot', 'ForgotPasswordController@showLinkRequestForm')->name('forgot');
+            $router->post('forgot', 'ForgotPasswordController@sendResetLinkEmail')->name('forgot');
+            $router->get('reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
+            $router->post('reset/{token}', 'ResetPasswordController@reset')->name('reset');
 
-            if(config('laravolt-auth.allow_registration')) {
-                $router->get('auth/register', 'AuthController@getRegister');
-                $router->post('auth/register', 'AuthController@postRegister');
-                $router->get('auth/activate/{token}', 'AuthController@getActivate');
+            $router->get('{provider}/login', 'SocialController@login')->name('social.login');
+            $router->get('{provider}/callback', 'SocialController@callback')->name('social.callback');
+
+            if(config('laravolt.auth.registration.enable')) {
+
+                // Registration Routes...
+                $router->get('register', 'RegisterController@showRegistrationForm')->name('register');
+                $router->post('register', 'RegisterController@register')->name('register');
+
+                // Activation Routes...
+                $router->get('activate/{token}', 'ActivationController@activate')->name('auth.activate');
             }
         });
     }

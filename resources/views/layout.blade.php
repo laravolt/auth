@@ -9,13 +9,13 @@
 
 <div class="ui divider hidden"></div>
 <div class="ui segment basic center aligned">
-    <a href="{{ url('/') }}"><i class="icon home circular inverted teal"></i></a>
+    <a href="{{ url('/') }}"><i class="icon home"></i></a>
 </div>
 <div class="ui divider hidden"></div>
 
 <div class="ui centered stackable grid">
     <div class="column seven wide center aligned">
-        @include('auth::auth.error')
+        @include('auth::error')
         @yield('content')
     </div>
 </div>

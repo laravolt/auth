@@ -1,15 +1,12 @@
-@extends(config('laravolt-auth.layout'))
+@extends(config('laravolt.auth.layout'))
 
 @section('content')
 
     <div class="ui segment very padded">
 
-        @if(config('laravolt-auth.services'))
-        @include('auth::auth.social')
-        <div class="ui divider section horizontal">Atau</div>
-        @endif
+        @include('auth::social')
 
-        <form class="ui large form" method="POST" action="{{ url('/auth/register') }}">
+        <form class="ui form" method="POST" action="{{ route('auth::register') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="ui field left icon input fluid">
@@ -24,9 +21,9 @@
                 <input type="password" name="password" placeholder="@lang('auth::auth.password')">
                 <i class="lock icon"></i>
             </div>
-            <button type="submit" class="ui big button fluid">@lang('auth::auth.register')</button>
+            <button type="submit" class="ui button fluid">@lang('auth::auth.register')</button>
         </form>
     </div>
-    @lang('auth::auth.already_registered?') <a href="{{ url('auth/login') }}">@lang('auth::auth.login_here')</a>
+    @lang('auth::auth.already_registered?') <a href="{{ route('auth::login') }}">@lang('auth::auth.login_here')</a>
 
 @endsection

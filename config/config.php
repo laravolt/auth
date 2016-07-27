@@ -1,17 +1,21 @@
 <?php
-/*
- * Set specific configuration variables here
- */
 return [
-    // automatic loading of routes through main service provider
-    'routes'             => true,
-    'layout'             => 'auth::auth.layout',
-    'services'           => ['facebook', 'twitter', 'google', 'linkedin', 'github'],
-    'default'            => [
+    'layout'       => 'auth::layout',
+    'services'     => ['facebook', 'twitter', 'google', 'linkedin', 'github'],
+    'registration' => [
+        'enable' => true,
         'status' => 'ACTIVE'
     ],
-    'allow_registration' => true,
-    'redirects'          => [
+    'activation'   => [
+        'enable'        => false,
+        'status_before' => 'PENDING',
+        'status_after'  => 'ACTIVE',
+    ],
+    'router'       => [
+        'middleware' => ['web'],
+        'prefix'     => 'auth',
+    ],
+    'redirects'    => [
         'after_login' => '/',
     ],
 ];

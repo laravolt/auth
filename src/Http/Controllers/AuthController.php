@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Laravolt\Auth\Activation;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
@@ -29,9 +28,9 @@ class AuthController extends Controller
     protected $loginPath = '/auth/login';
     protected $loginUsername = 'email';
 
-    use AuthenticatesUsers, RegistersUsers, Activation, ThrottlesLogins, ValidatesRequests {
+    use AuthenticatesUsers, RegistersUsers, Activation, ValidatesRequests {
         Activation::postRegister insteadof RegistersUsers;
-        AuthenticatesUsers::getGuard insteadof RegistersUsers;
+        AuthenticatesUsers::guard insteadof RegistersUsers;
     }
 
     /**
@@ -40,12 +39,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     public function redirectpath()
     {
-        return config('laravolt-auth.redirects.after_login', '/');
+        return config('laravolt.auth.redirects.after_login', '/');
     }
 
     /**
@@ -56,7 +55,6 @@ class AuthController extends Controller
     public function getLogin(Request $request)
     {
         request()->session()->flash('next', $request->get('next'));
-
         return view('auth::auth.login');
     }
 

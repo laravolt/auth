@@ -1,4 +1,4 @@
-@extends(config('laravolt-auth.layout'))
+@extends(config('laravolt.auth.layout'))
 
 @section('content')
 
@@ -10,12 +10,9 @@
 
     <div class="ui segment very padded">
 
-        @if(config('laravolt-auth.services'))
-        @include('auth::auth.social')
-        <div class="ui divider section horizontal">Atau</div>
-        @endif
+        @include('auth::social')
 
-        <form class="ui form large" method="POST" action="{{ url('/auth/login') }}">
+        <form class="ui form" method="POST" action="{{ route('auth::login') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="ui field left icon input fluid">
@@ -27,17 +24,17 @@
                 <i class="lock icon"></i>
             </div>
             <div class="ui field">
-                <button type="submit" class="ui big fluid button">@lang('auth::auth.login')</button>
+                <button type="submit" class="ui fluid button">@lang('auth::auth.login')</button>
             </div>
             <div class="ui equal width grid field">
                 <div class="column left aligned">
-                    <div class="ui checkbox big">
+                    <div class="ui checkbox">
                         <input type="checkbox" name="remember" {{ request()->old('remember')?'checked':'' }}>
                         <label>@lang('auth::auth.remember')</label>
                     </div>
                 </div>
                 <div class="column right aligned">
-                    <a href="{{ url('/password/email') }}">@lang('auth::auth.forgot_password')</a>
+                    <a href="{{ route('auth::forgot') }}">@lang('auth::auth.forgot_password')</a>
                 </div>
             </div>
 
@@ -45,11 +42,11 @@
 
     </div>
 
-    @if(config('laravolt-auth.allow_registration'))
+    @if(config('laravolt.auth.registration.enable'))
     <div class="ui list small">
         <div class="item">
             @lang('auth::auth.not_registered_yet?')
-            <a href="{{ url('auth/register') }}">@lang('auth::auth.register_here')</a>
+            <a href="{{ route('auth::register') }}">@lang('auth::auth.register_here')</a>
         </div>
     </div>
     @endif
