@@ -15,7 +15,7 @@ return [
         'middleware' => ['web'],
         'prefix'     => 'auth',
     ],
-    'redirects'    => [
+    'redirect'    => [
         'after_login' => '/',
     ],
 ];

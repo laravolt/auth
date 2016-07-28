@@ -2,6 +2,7 @@
 
 namespace Laravolt\Auth\Http\Controllers;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -18,7 +19,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, ValidatesRequests;
 
     /**
      * Where to redirect users after login / registration.
@@ -35,6 +36,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+
+        $this->redirectTo = config('laravolt.auth.redirect.after_login');
     }
 
     /**
