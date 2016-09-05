@@ -21,7 +21,7 @@
                 <input type="password" name="password" placeholder="@lang('auth::auth.password')">
                 <i class="lock icon"></i>
             </div>
-            <button type="submit" class="ui button fluid">@lang('auth::auth.register')</button>
+            <button type="submit" class="ui button fluid primary">@lang('auth::auth.register')</button>
         </form>
     </div>
     @lang('auth::auth.already_registered?') <a href="{{ route('auth::login') }}">@lang('auth::auth.login_here')</a>

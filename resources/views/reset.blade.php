@@ -21,7 +21,7 @@
         <div class="ui field fluid">
             <input type="password" name="password_confirmation" placeholder="@lang('auth::auth.password_confirm')">
         </div>
-        <button type="submit" class="ui fluid button">@lang('auth::auth.reset_password')</button>
+        <button type="submit" class="ui fluid button primary">@lang('auth::auth.reset_password')</button>
     </form>
 
     @lang('auth::auth.already_registered?') <a href="{{ route('auth::login') }}">@lang('auth::auth.login_here')</a>

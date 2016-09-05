@@ -24,7 +24,7 @@
                 <i class="lock icon"></i>
             </div>
             <div class="ui field">
-                <button type="submit" class="ui fluid button">@lang('auth::auth.login')</button>
+                <button type="submit" class="ui fluid button primary">@lang('auth::auth.login')</button>
             </div>
             <div class="ui equal width grid field">
                 <div class="column left aligned">
