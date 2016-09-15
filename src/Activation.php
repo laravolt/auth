@@ -5,7 +5,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Krucas\Notification\Facades\Notification;
 
 trait Activation
 {
@@ -21,7 +20,7 @@ trait Activation
             $message->to($user['email']);
         });
 
-        Notification::success(trans('auth::auth.registration_success'));
+        flash()->success(trans('auth::auth.registration_success'));
         return redirect()->back();
     }
 

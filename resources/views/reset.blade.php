@@ -3,9 +3,7 @@
 @section('content')
 
     @if (session('status'))
-        <div class="ui positive message">
-            <p>{{ session('status') }}</p>
-        </div>
+        <?php flash()->success(session('status')); ?>
     @endif
 
     <form class="ui form segment very padded" method="POST" action="{{ route('auth::reset', $token) }}">
