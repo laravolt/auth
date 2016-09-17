@@ -48,13 +48,20 @@ class ForgotPasswordTest extends TestCase
     /**
      * @test
      */
-    public function it_can_validate_form()
+    public function it_redirect_back_if_failed()
     {
         $this->visitRoute('auth::forgot')
              ->type('invalid-email-format', 'email')
              ->press(trans('auth::auth.send_reset_password_link'))
-            //@todo: assert error message present
              ->seeRouteIs('auth::forgot');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_errors_if_failed()
+    {
+        $this->post(route('auth::forgot'))->assertSessionHasErrors();
     }
 
 }

@@ -63,14 +63,21 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function it_can_validate_empty_login()
+    public function it_redirect_back_if_failed()
     {
         $this->visitRoute('auth::login')
             ->type('', 'email')
             ->type('', 'password')
             ->press('Login')
-            //@todo: assert error message present
             ->seeRouteIs('auth::login');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_errors_if_failed()
+    {
+        $this->post(route('auth::login'))->assertSessionHasErrors();
     }
 
     /**

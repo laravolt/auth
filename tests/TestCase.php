@@ -40,8 +40,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $app['config']->set('auth.providers.users.model', User::class);
         $app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
+        $app['config']->set('session.expire_on_close', false);
 
-        $app->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+        //$app->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
 
     }
 
@@ -79,6 +80,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('status')->default('ACTIVE');
             $table->timestamps();
         });
     }

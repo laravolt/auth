@@ -10,6 +10,7 @@
 
     <php>
         <env name="APP_KEY" value="base64:Hu6gTLfCq3i6ZB1PLiwnbHfyTWVY1XBK54edL5DqBaY="/>
+        <env name="SESSION_DRIVER" value="file"/>
     </php>
 
 </phpunit>

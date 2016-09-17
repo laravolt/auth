@@ -77,15 +77,23 @@ class RegisterTest extends TestCase
     /**
      * @test
      */
-    public function it_can_validate_registration()
+    public function it_redirect_back_if_failed()
     {
         $this->visitRoute('auth::register')
             ->type('', 'name')
             ->type('', 'email')
             ->type('', 'password')
             ->press(trans('auth::auth.register'))
-            //@todo: assert error message present
             ->seeRouteIs('auth::register');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_errors_if_failed()
+    {
+        $this->post(route('auth::register'))
+            ->assertSessionHasErrors();
     }
 
 }
