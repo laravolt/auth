@@ -22,6 +22,8 @@ class ResetPasswordController extends Controller
 
     use ResetsPasswords, ValidatesRequests;
 
+    protected $redirectTo;
+
     /**
      * Create a new controller instance.
      *
@@ -30,6 +32,8 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        $this->redirectTo = config('laravolt.auth.redirect.after_reset_password');
     }
 
     /**
