@@ -28,6 +28,17 @@ class LoginTest extends TestCase
     /**
      * @test
      */
+    public function it_has_registration_form()
+    {
+        $this->get(route('auth::login'))
+             ->seeElement('input[name=email]')
+             ->seeElement('input[name=password]');
+
+    }
+
+    /**
+     * @test
+     */
     public function it_can_handle_correct_login()
     {
         $this->visitRoute('auth::login')
@@ -60,5 +71,38 @@ class LoginTest extends TestCase
             ->press('Login')
             //@todo: assert error message present
             ->seeRouteIs('auth::login');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_register_link()
+    {
+        $this->app['config']->set('laravolt.auth.registration.enable', true);
+
+        $this->visitRoute('auth::login')
+            ->click(trans('auth::auth.register_here'))
+            ->seeRouteIs('auth::register');
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_have_register_link()
+    {
+        $this->app['config']->set('laravolt.auth.registration.enable', false);
+
+        $this->visitRoute('auth::login')
+            ->dontSeeLink(trans('auth:auth.register_here'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_forgot_password_link()
+    {
+        $this->visitRoute('auth::login')
+            ->click(trans('auth::auth.forgot_password'))
+            ->seeRouteIs('auth::forgot');
     }
 }
