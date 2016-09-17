@@ -58,6 +58,7 @@ class LoginTest extends TestCase
             ->type('', 'email')
             ->type('', 'password')
             ->press('Login')
+            //@todo: assert error message present
             ->seeRouteIs('auth::login');
     }
 }
