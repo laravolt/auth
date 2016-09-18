@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Laravolt\Auth\Mail\ActivationMail;
 
 trait Activation
 {
@@ -15,13 +16,10 @@ trait Activation
         $user = $this->create($request->all());
         $token = $this->createToken($user);
 
-        Mail::send('auth::emails.activation', compact('token'), function($message) use ($user){
-            $message->subject(trans('auth::auth.activation_subject'));
-            $message->to($user['email']);
-        });
+        Mail::to($user)->send(new ActivationMail($token));
 
-        flash()->success(trans('auth::auth.registration_success'));
-        return redirect()->back();
+        return redirect()->back()->withSuccess(trans('auth::auth.registration_success'));
+
     }
 
     public function activate($token)

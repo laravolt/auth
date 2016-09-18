@@ -11,7 +11,7 @@
         <input type="hidden" name="token" value="{{ $token }}">
 
         <div class="ui field fluid">
-            <input type="email" name="email" placeholder="@lang('auth::auth.email')" value="{{ $email or old('email') }}">
+            <input type="email" name="email" placeholder="@lang('auth::auth.email')" value="{{ old('email', $email) }}">
         </div>
         <div class="ui field fluid">
             <input type="password" name="password" placeholder="@lang('auth::auth.password_new')">

@@ -17,5 +17,6 @@ return [
     ],
     'redirect'    => [
         'after_login' => '/',
+        'after_reset_password' => '/',
     ],
 ];
