@@ -5,7 +5,7 @@ namespace Laravolt\Auth\Tests;
 use Illuminate\Database\Schema\Blueprint;
 use Laravolt\Auth\Tests\Dummy\User;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected function getDatabasePath()
     {

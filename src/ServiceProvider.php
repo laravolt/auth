@@ -143,7 +143,7 @@ class ServiceProvider extends BaseServiceProvider
                 $router->post('register', 'RegisterController@register')->name('register');
 
                 // Activation Routes...
-                $router->get('activate/{token}', 'ActivationController@activate')->name('auth.activate');
+                $router->get('activate/{token}', 'ActivationController@activate')->name('activate');
             }
         });
     }

@@ -31,12 +31,12 @@ trait Activation
         }
 
         $user = app(config('auth.providers.users.model'))->findOrFail($userId);
-        $user->status = 'ACTIVE';
+        $user->status = config('laravolt.auth.activation.status_after');
         $user->save();
 
         DB::table('users_activation')->whereToken($token)->delete();
 
-        return redirect()->to($this->loginPath)->with('success', trans('auth::auth.activation_success'));
+        return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
     }
 
     protected function createToken($user)

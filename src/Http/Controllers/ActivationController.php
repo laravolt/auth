@@ -8,5 +8,7 @@ use Laravolt\Auth\Activation;
 
 class ActivationController extends Controller
 {
-    use Activation, RegistersUsers;
+    use Activation, RegistersUsers {
+        Activation::register insteadof RegistersUsers;
+    }
 }
