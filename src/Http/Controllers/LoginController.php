@@ -3,6 +3,7 @@
 namespace Laravolt\Auth\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -50,4 +51,17 @@ class LoginController extends Controller
         return view('auth::login');
     }
 
+    protected function validateLogin(Request $request)
+    {
+        $rules = [
+            $this->username() => 'required',
+            'password'        => 'required',
+        ];
+
+        if (config('laravolt.auth.captcha')) {
+           $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $this->validate($request, $rules);
+    }
 }

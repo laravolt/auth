@@ -26,6 +26,9 @@
         "phpunit/phpunit": "~5.0",
         "orchestra/testbench": "^3.3"
     },
+    "suggest": {
+        "anhskohbo/no-captcha": "Required to use Google reCAPTCHA"
+    },
     "autoload": {
         "psr-4": {
             "Laravolt\\Auth\\": "src"

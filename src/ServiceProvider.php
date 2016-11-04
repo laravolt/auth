@@ -49,6 +49,10 @@ class ServiceProvider extends BaseServiceProvider
         if(! $this->app->routesAreCached()) {
             $this->registerRoutes();
         }
+
+        if (config('laravolt.auth.captcha')) {
+            $this->app->register('Anhskohbo\NoCaptcha\NoCaptchaServiceProvider');
+        }
     }
 
     /**
