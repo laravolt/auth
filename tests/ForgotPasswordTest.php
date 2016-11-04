@@ -64,4 +64,21 @@ class ForgotPasswordTest extends TestCase
         $this->post(route('auth::forgot'))->assertSessionHasErrors();
     }
 
+    /**
+     * @test
+     */
+    public function it_has_register_link()
+    {
+        $this->get(route('auth::forgot'))->seeText(trans('auth::auth.register_here'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_have_register_link_if_registration_disabled()
+    {
+        $this->app['config']->set('laravolt.auth.registration.enable', false);
+        $this->get(route('auth::forgot'))->dontSeeText(trans('auth::auth.register_here'));
+    }
+
 }

@@ -15,6 +15,7 @@
         </div>
         <button type="submit" class="ui fluid button primary">@lang('auth::auth.send_reset_password_link')</button>
     </form>
+    @if(config('laravolt.auth.registration.enable'))
     @lang('auth::auth.not_registered_yet?') <a href="{{ route('auth::register') }}">@lang('auth::auth.register_here')</a>
-
+    @endif
 @endsection
