@@ -53,8 +53,14 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
+        if(version_compare(app()->version(), '5.3.0', '>=')) {
+            $loginField = $this->username();
+        } else {
+            $loginField = $this->loginUsername();
+        }
+
         $rules = [
-            $this->username() => 'required',
+            $loginField => 'required',
             'password'        => 'required',
         ];
 
