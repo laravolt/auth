@@ -23,6 +23,11 @@
                 <input type="password" name="password" placeholder="@lang('auth::auth.password')">
                 <i class="lock icon"></i>
             </div>
+            @if(config('laravolt.auth.captcha'))
+                <div class="field">
+                    {!! app('captcha')->display() !!}
+                </div>
+            @endif
             <div class="ui field">
                 <button type="submit" class="ui fluid button primary">@lang('auth::auth.login')</button>
             </div>
