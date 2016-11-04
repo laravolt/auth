@@ -2,6 +2,7 @@
 
 namespace Laravolt\Auth\Tests;
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use Illuminate\Support\Facades\Route;
 
 class LoginTest extends TestCase
@@ -63,6 +64,42 @@ class LoginTest extends TestCase
     /**
      * @test
      */
+    public function it_can_handle_correct_login_with_captcha()
+    {
+        $this->app['config']->set('laravolt.auth.captcha', true);
+
+        NoCaptcha::shouldReceive('display')
+                 ->zeroOrMoreTimes()
+                 ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
+
+        NoCaptcha::shouldReceive('verifyResponse')
+                 ->once()
+                 ->andReturn(true);
+        
+        $this->visitRoute('auth::login')
+            ->type('andi@laravolt.com', 'email')
+            ->type('asdf1234', 'password')
+            ->press('Login')
+            ->seePageIs(config('laravolt.auth.redirect.after_login'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_must_fail_if_captcha_not_checked()
+    {
+        $this->app['config']->set('laravolt.auth.captcha', true);
+
+        $this->visitRoute('auth::login')
+            ->type('andi@laravolt.com', 'email')
+            ->type('asdf1234', 'password')
+            ->press('Login')
+            ->seeRouteIs('auth::login');
+    }
+
+    /**
+     * @test
+     */
     public function it_redirect_back_if_failed()
     {
         $this->visitRoute('auth::login')
@@ -111,5 +148,19 @@ class LoginTest extends TestCase
         $this->visitRoute('auth::login')
             ->click(trans('auth::auth.forgot_password'))
             ->seeRouteIs('auth::forgot');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_display_recaptcha()
+    {
+        $this->app['config']->set('laravolt.auth.captcha', true);
+
+        $this->get(route('auth::login'));
+
+        NoCaptcha::shouldReceive('display')
+                 ->zeroOrMoreTimes()
+                 ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
     }
 }

@@ -26,7 +26,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return [\Laravolt\Auth\ServiceProvider::class];
+        return [
+            \Laravolt\Auth\ServiceProvider::class,
+            'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
+        ];
     }
 
     protected function getEnvironmentSetUp($app)
