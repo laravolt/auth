@@ -2,6 +2,7 @@
 
 namespace Laravolt\Auth\Notifications;
 
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class ResetPassword extends Notification
@@ -38,6 +39,7 @@ class ResetPassword extends Notification
     }
 
     /**
+     * @deprecated
      * Get the notification message.
      *
      * @param  mixed  $notifiable
@@ -48,5 +50,20 @@ class ResetPassword extends Notification
         return $this->line(trans('auth::reset.intro'))
                     ->action(trans('auth::auth.reset_password'), route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)]))
                     ->line(trans('auth::reset.outro'));
+    }
+
+    /**
+     * Get the notification message.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\MessageBuilder
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage())
+            ->line(trans('auth::reset.intro'))
+            ->action(trans('auth::auth.reset_password'),
+                route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)]))
+            ->line(trans('auth::reset.outro'));
     }
 }
