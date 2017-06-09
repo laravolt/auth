@@ -71,7 +71,9 @@ class RegisterTest extends TestCase
              ->press(trans('auth::auth.register'))
              ->seeRouteIs('auth::register');
 
-        Mail::assertSentTo($email, ActivationMail::class);
+        Mail::assertSent(ActivationMail::class, function ($mail) use ($email) {
+            return $mail->hasTo($email);
+        });
     }
 
     /**

@@ -17,15 +17,16 @@
         }
     ],
     "require": {
-        "php" : ">=5.5.9",
-        "illuminate/support": "~5.2",
-        "illuminate/auth": "~5.2",
-        "illuminate/mail": "~5.2",
+        "php" : ">=5.6.0",
+        "illuminate/support": "~5.4",
+        "illuminate/auth": "~5.4",
+        "illuminate/mail": "~5.4",
         "anhskohbo/no-captcha": "^2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.0",
-        "orchestra/testbench": "^3.3",
+        "phpunit/phpunit": "~5.7",
+        "orchestra/testbench-browser-kit": "^3.4",
+        "orchestra/database": "^3.4",
         "mockery/mockery": "~0.9.4"
     },
     "autoload": {

@@ -4,8 +4,10 @@ namespace Laravolt\Auth\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Laravolt\Auth\Tests\Dummy\User;
+use Orchestra\Database\ConsoleServiceProvider;
+use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends BaseTestCase
 {
     protected function getDatabasePath()
     {
@@ -29,6 +31,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             \Laravolt\Auth\ServiceProvider::class,
             'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
+            ConsoleServiceProvider::class,
         ];
     }
 
@@ -60,10 +63,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->createUserTable();
 
-        $this->loadMigrationsFrom([
-            '--database' => 'sqlite',
-            '--realpath' => realpath(__DIR__.'/../database/migrations'),
-        ]);
+//        $this->loadLaravelMigrations();
+
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../database/migrations'));
 
         $this->beforeApplicationDestroyed(function () {
             $this->cleanDatabase();
