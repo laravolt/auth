@@ -3,15 +3,15 @@
 namespace Laravolt\Auth\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Laravolt\Auth\Tests\Dummy\User;
 
 class ResetPasswordTest extends TestCase
 {
 
     protected $email = 'andi@laravolt.com';
 
-    protected $token = 'qwerty';
+    protected $token;
 
     protected $table;
 
@@ -24,10 +24,9 @@ class ResetPasswordTest extends TestCase
 
         $this->createPasswordResetsTable();
 
-        DB::table($this->table)->insert([
-            'email' => $this->email,
-            'token' => $this->token,
-        ]);
+        $user = User::whereEmail($this->email)->first();
+        $this->token = app('auth.password.broker')->createToken($user);
+
     }
 
     /**

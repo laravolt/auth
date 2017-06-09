@@ -24,11 +24,13 @@ trait Activation
 
     public function activate($token)
     {
-        $userId = DB::table('users_activation')->whereToken($token)->pluck('user_id');
+        $token = DB::table('users_activation')->whereToken($token)->pluck('user_id');
 
-        if (!$userId) {
+        if ($token->isEmpty()) {
             abort(404);
         }
+
+        $userId = $token->first();
 
         $user = app(config('auth.providers.users.model'))->findOrFail($userId);
         $user->status = config('laravolt.auth.activation.status_after');
