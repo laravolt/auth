@@ -44,6 +44,7 @@ class RegisterTest extends TestCase
      */
     public function it_can_handle_correct_registration()
     {
+        $this->app['config']->set('laravolt.auth.activation.enable', false);
         $this->app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
 
         $this->visitRoute('auth::register')
