@@ -10,7 +10,6 @@ use Laravolt\Auth\Models\SocialAccount;
 
 class SocialUser
 {
-
     private $socialite;
     private $auth;
 

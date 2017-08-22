@@ -80,5 +80,4 @@ class ForgotPasswordTest extends TestCase
         $this->app['config']->set('laravolt.auth.registration.enable', false);
         $this->get(route('auth::forgot'))->dontSeeText(trans('auth::auth.register_here'));
     }
-
 }
