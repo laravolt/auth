@@ -47,12 +47,21 @@ class RegisterTest extends TestCase
         $this->app['config']->set('laravolt.auth.activation.enable', false);
         $this->app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
 
+        $name = 'Jon Dodo';
+        $email = 'jon@example.com';
+        $status = $this->app['config']->get('laravolt.auth.registration.status');
+
         $this->visitRoute('auth::register')
-             ->type('Jon Dodo', 'name')
-             ->type('jon@dodo.com', 'email')
+             ->type($name, 'name')
+             ->type($email, 'email')
              ->type('asdf1234', 'password')
              ->press(trans('auth::auth.register'))
-             ->seePageIs(config('laravolt.auth.redirect.after_login'));
+             ->seePageIs(config('laravolt.auth.redirect.after_login'))
+             ->seeInDatabase('users', [
+                 'name'   => $name,
+                 'email'  => $email,
+                 'status' => $status,
+             ]);
     }
 
     /**

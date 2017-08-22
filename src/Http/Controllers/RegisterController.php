@@ -57,12 +57,12 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
     {
-        if(config('laravolt.auth.activation.enable')) {
+        if (config('laravolt.auth.activation.enable')) {
             return $this->registerWithActivation($request);
         }
 
@@ -72,7 +72,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -87,16 +87,18 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
-        return app(config('auth.providers.users.model'))->create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => bcrypt($data['password']),
-            'status'   => config('laravolt.auth.activation.enable') ? config('laravolt.auth.activation.status_before') : config('laravolt.auth.registration.status')
-        ]);
+        $user = app(config('auth.providers.users.model'));
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->status = config('laravolt.auth.activation.enable') ? config('laravolt.auth.activation.status_before') : config('laravolt.auth.registration.status');
+        $user->save();
+
+        return $user;
     }
 }
