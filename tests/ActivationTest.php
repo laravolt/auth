@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Laravolt\Auth\Tests\Dummy\User;
 
-class Activation extends TestCase
+class ActivationTest extends TestCase
 {
     /**
      * @test

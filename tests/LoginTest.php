@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 class LoginTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
 
-        Route::get('login-success', function(){
+        Route::get('login-success', function () {
             return 'login success';
         });
     }
@@ -34,7 +33,6 @@ class LoginTest extends TestCase
         $this->get(route('auth::login'))
              ->seeElement('input[name=email]')
              ->seeElement('input[name=password]');
-
     }
 
     /**

@@ -32,7 +32,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-
         $this->registerViews();
         $this->registerMigrations();
         $this->registerTranslations();

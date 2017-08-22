@@ -8,12 +8,11 @@ use Laravolt\Auth\Mail\ActivationMail;
 
 class RegisterTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
 
-        Route::get('login-success', function(){
+        Route::get('login-success', function () {
             return 'Login success';
         });
     }
@@ -36,7 +35,6 @@ class RegisterTest extends TestCase
             ->seeElement('input[name=name]')
             ->seeElement('input[name=email]')
             ->seeElement('input[name=password]');
-
     }
 
     /**
@@ -107,5 +105,4 @@ class RegisterTest extends TestCase
         $this->post(route('auth::register'))
             ->assertSessionHasErrors();
     }
-
 }

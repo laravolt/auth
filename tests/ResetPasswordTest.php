@@ -8,7 +8,6 @@ use Laravolt\Auth\Tests\Dummy\User;
 
 class ResetPasswordTest extends TestCase
 {
-
     protected $email = 'andi@laravolt.com';
 
     protected $token;
@@ -26,7 +25,6 @@ class ResetPasswordTest extends TestCase
 
         $user = User::whereEmail($this->email)->first();
         $this->token = app('auth.password.broker')->createToken($user);
-
     }
 
     /**
@@ -54,7 +52,7 @@ class ResetPasswordTest extends TestCase
      */
     public function it_can_reset_password()
     {
-        Route::get('reset-password-success', function(){
+        Route::get('reset-password-success', function () {
             return 'login success';
         });
 
@@ -95,5 +93,4 @@ class ResetPasswordTest extends TestCase
             $table->timestamp('created_at')->nullable();
         });
     }
-
 }
