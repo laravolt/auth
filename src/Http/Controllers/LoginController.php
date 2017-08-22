@@ -53,7 +53,7 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        if(version_compare(app()->version(), '5.3.0', '>=')) {
+        if (version_compare(app()->version(), '5.3.0', '>=')) {
             $loginField = $this->username();
         } else {
             $loginField = $this->loginUsername();
@@ -61,11 +61,11 @@ class LoginController extends Controller
 
         $rules = [
             $loginField => 'required',
-            'password'        => 'required',
+            'password'  => 'required',
         ];
 
         if (config('laravolt.auth.captcha')) {
-           $rules['g-recaptcha-response'] = 'required|captcha';
+            $rules['g-recaptcha-response'] = 'required|captcha';
         }
 
         $this->validate($request, $rules);

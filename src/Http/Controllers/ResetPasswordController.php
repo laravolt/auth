@@ -41,8 +41,8 @@ class ResetPasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $token
+     * @param  \Illuminate\Http\Request $request
+     * @param  string|null $token
      * @return \Illuminate\Http\Response
      */
     public function showResetForm(Request $request, $token = null)
@@ -51,5 +51,4 @@ class ResetPasswordController extends Controller
             ['token' => $token, 'email' => urldecode($request->email)]
         );
     }
-
 }

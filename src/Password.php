@@ -1,4 +1,5 @@
 <?php
+
 namespace Laravolt\Auth;
 
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -13,9 +14,9 @@ class Password
      */
     private $mailer;
 
-
     /**
      * Password constructor.
+     *
      * @param Mailer $mailer
      */
     public function __construct(Mailer $mailer)
@@ -25,9 +26,12 @@ class Password
 
     public function sendResetLink($user)
     {
-        $response = BasePassword::sendResetLink(['id' => $user['id']], function (Message $message) {
-            $message->subject(trans('passwords.reset'));
-        });
+        $response = BasePassword::sendResetLink(
+            ['id' => $user['id']],
+            function (Message $message) {
+                $message->subject(trans('passwords.reset'));
+            }
+        );
 
         return $response;
     }
@@ -38,9 +42,12 @@ class Password
         $user->password = $password;
         $user->save();
 
-        $this->mailer->send('auth::emails.new_password', compact('user', 'password'), function($m) use ($user) {
-            $m->to($user->getEmailForPasswordReset());
-        });
+        $this->mailer->send(
+            'auth::emails.new_password',
+            compact('user', 'password'),
+            function ($m) use ($user) {
+                $m->to($user->getEmailForPasswordReset());
+            }
+        );
     }
-
 }

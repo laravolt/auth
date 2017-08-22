@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function sendResetLinkEmail(Request $request)
@@ -56,7 +56,8 @@ class ForgotPasswordController extends Controller
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
         $response = $this->broker()->sendResetLink(
-            $request->only('email'), $this->resetNotifier()
+            $request->only('email'),
+            $this->resetNotifier()
         );
 
         if ($response === Password::RESET_LINK_SENT) {
@@ -90,5 +91,4 @@ class ForgotPasswordController extends Controller
     {
         return Password::broker();
     }
-
 }

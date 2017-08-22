@@ -27,12 +27,14 @@ class SocialUser
         $user = $userClass::whereEmail($socialAcount->getEmail())->first();
 
         if (!$user) {
-            $user = $userClass::create([
+            $user = $userClass::create(
+                [
                 'name'     => $socialAcount->getName(),
                 'email'    => $socialAcount->getEmail(),
                 'password' => Hash::make(Str::random(16)),
                 'status'   => config('laravolt-auth.default.status'),
-            ]);
+                ]
+            );
         }
 
         $account = SocialAccount::firstOrCreate(['provider' => $provider, 'provider_id' => $socialAcount->getId()]);

@@ -30,7 +30,6 @@ class PasswordController extends Controller
 
     /**
      * Create a new password controller instance.
-     *
      */
     public function __construct()
     {
@@ -70,8 +69,8 @@ class PasswordController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword $user
+     * @param  string                                      $password
      * @return void
      */
     protected function resetPassword($user, $password)

@@ -1,4 +1,5 @@
 <?php
+
 namespace Laravolt\Auth;
 
 use Carbon\Carbon;
@@ -19,7 +20,6 @@ trait Activation
         Mail::to($user)->send(new ActivationMail($token));
 
         return redirect()->back()->withSuccess(trans('auth::auth.registration_success'));
-
     }
 
     public function activate($token)
@@ -44,7 +44,10 @@ trait Activation
     protected function createToken($user)
     {
         $token = md5(uniqid(rand(), true));
-        DB::table('users_activation')->insert(['user_id' => $user->getKey(), 'token' => $token, 'created_at' => Carbon::now()]);
+        DB::table('users_activation')->insert(['user_id'    => $user->getKey(),
+                                               'token'      => $token,
+                                               'created_at' => Carbon::now(),
+        ]);
 
         return $token;
     }

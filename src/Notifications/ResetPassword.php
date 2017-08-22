@@ -13,13 +13,12 @@ class ResetPassword extends Notification
      * @var string
      */
     public $token;
-
     protected $options = ['view' => 'auth::emails.reset'];
 
     /**
      * Create a notification instance.
      *
-     * @param  string  $token
+     * @param  string $token
      * @return void
      */
     public function __construct($token)
@@ -30,7 +29,7 @@ class ResetPassword extends Notification
     /**
      * Get the notification's channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array|string
      */
     public function via($notifiable)
@@ -42,28 +41,33 @@ class ResetPassword extends Notification
      * @deprecated
      * Get the notification message.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\MessageBuilder
      */
     public function message($notifiable)
     {
         return $this->line(trans('auth::reset.intro'))
-                    ->action(trans('auth::auth.reset_password'), route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)]))
-                    ->line(trans('auth::reset.outro'));
+            ->action(
+                trans('auth::auth.reset_password'),
+                route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)])
+            )
+            ->line(trans('auth::reset.outro'));
     }
 
     /**
      * Get the notification message.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\MessageBuilder
      */
     public function toMail($notifiable)
     {
         return (new MailMessage())
             ->line(trans('auth::reset.intro'))
-            ->action(trans('auth::auth.reset_password'),
-                route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)]))
+            ->action(
+                trans('auth::auth.reset_password'),
+                route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)])
+            )
             ->line(trans('auth::reset.outro'));
     }
 }

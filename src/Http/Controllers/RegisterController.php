@@ -77,11 +77,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name'     => 'required|max:255',
-            'email'    => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
-        ]);
+        return Validator::make(
+            $data,
+            [
+                'name'     => 'required|max:255',
+                'email'    => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6',
+            ]
+        );
     }
 
     /**
@@ -96,7 +99,9 @@ class RegisterController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
-        $user->status = config('laravolt.auth.activation.enable') ? config('laravolt.auth.activation.status_before') : config('laravolt.auth.registration.status');
+        $user->status = config('laravolt.auth.activation.enable') ?
+            config('laravolt.auth.activation.status_before') :
+            config('laravolt.auth.registration.status');
         $user->save();
 
         return $user;
