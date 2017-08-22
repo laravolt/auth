@@ -12,7 +12,6 @@ return [
     'login_here'               => 'Login disini',
     'name'                     => 'Nama Lengkap',
     'not_registered_yet?'      => 'Belum punya akun?',
-    'or'                       => 'Atau',
     'password'                 => 'Password',
     'password_new'             => 'Password Baru',
     'password_confirm'         => 'Konfirmasi Password Baru',

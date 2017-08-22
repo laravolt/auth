@@ -4,8 +4,6 @@
 
     <div class="ui segment very padded">
 
-        @include('auth::social')
-
         <form class="ui form" method="POST" action="{{ route('auth::register') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

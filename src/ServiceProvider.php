@@ -141,9 +141,6 @@ class ServiceProvider extends BaseServiceProvider
                 $router->get('reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
                 $router->post('reset/{token}', 'ResetPasswordController@reset')->name('reset');
 
-                $router->get('{provider}/login', 'SocialController@login')->name('social.login');
-                $router->get('{provider}/callback', 'SocialController@callback')->name('social.callback');
-
                 if (config('laravolt.auth.registration.enable')) {
                     // Registration Routes...
                     $router->get('register', 'RegisterController@showRegistrationForm')->name('register');

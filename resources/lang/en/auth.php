@@ -12,7 +12,6 @@ return [
     'login_here'               => 'Login Here',
     'name'                     => 'Name',
     'not_registered_yet?'      => 'Not registered yet?',
-    'or'                       => 'Or',
     'password'                 => 'Password',
     'password_new'             => 'New Password',
     'password_confirm'         => 'Confirm New Password',
