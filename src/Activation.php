@@ -44,9 +44,10 @@ trait Activation
     protected function createToken($user)
     {
         $token = md5(uniqid(rand(), true));
-        DB::table('users_activation')->insert(['user_id'    => $user->getKey(),
-                                               'token'      => $token,
-                                               'created_at' => Carbon::now(),
+        DB::table('users_activation')->insert([
+            'user_id'    => $user->getKey(),
+            'token'      => $token,
+            'created_at' => Carbon::now(),
         ]);
 
         return $token;
