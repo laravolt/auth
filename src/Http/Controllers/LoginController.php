@@ -53,15 +53,9 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        if (version_compare(app()->version(), '5.3.0', '>=')) {
-            $loginField = $this->username();
-        } else {
-            $loginField = $this->loginUsername();
-        }
-
         $rules = [
-            $loginField => 'required',
-            'password'  => 'required',
+            $this->username() => 'required',
+            'password'        => 'required',
         ];
 
         if (config('laravolt.auth.captcha')) {
