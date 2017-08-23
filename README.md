@@ -42,5 +42,4 @@ return [
         'after_reset_password' => '/',
     ],
 ];
-
 ```
