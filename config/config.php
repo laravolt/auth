@@ -1,7 +1,6 @@
 <?php
 return [
     'layout'       => 'auth::layout',
-    'services'     => ['facebook', 'twitter', 'google', 'linkedin', 'github'],
     'captcha'      => false,
     'registration' => [
         'enable' => true,
