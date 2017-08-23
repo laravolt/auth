@@ -45,7 +45,7 @@ class Password
         $this->mailer->send(
             'auth::emails.new_password',
             compact('user', 'password'),
-            function ($m) use ($user) {
+            function (Message $m) use ($user) {
                 $m->to($user->getEmailForPasswordReset());
             }
         );

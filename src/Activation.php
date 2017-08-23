@@ -3,6 +3,7 @@
 namespace Laravolt\Auth;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +42,7 @@ trait Activation
         return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
     }
 
-    protected function createToken($user)
+    protected function createToken(Model $user)
     {
         $token = md5(uniqid(rand(), true));
         DB::table('users_activation')->insert([
