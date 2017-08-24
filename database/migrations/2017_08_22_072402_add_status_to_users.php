@@ -7,7 +7,9 @@ use Illuminate\Database\Migrations\Migration;
 class AddStatusToUsers extends Migration
 {
     protected $table;
+
     protected $column = 'status';
+
     protected $columnExists;
 
     /**
@@ -27,7 +29,9 @@ class AddStatusToUsers extends Migration
     public function up()
     {
         Schema::table($this->table, function (Blueprint $table) {
-            $table->string($this->column)->index()->nullable();
+            if (!$this->columnExists) {
+                $table->string($this->column)->index()->nullable();
+            }
         });
     }
 
@@ -39,7 +43,9 @@ class AddStatusToUsers extends Migration
     public function down()
     {
         Schema::table($this->table, function (Blueprint $table) {
-            $table->dropColumn($this->column);
+            if ($this->columnExists) {
+                $table->dropColumn($this->column);
+            }
         });
     }
 }
