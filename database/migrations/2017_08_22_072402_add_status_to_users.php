@@ -30,7 +30,7 @@ class AddStatusToUsers extends Migration
     {
         Schema::table($this->table, function (Blueprint $table) {
             if (!$this->columnExists) {
-                $table->string($this->column)->index()->nullable();
+                $table->string($this->column)->after('email')->index()->nullable();
             }
         });
     }
