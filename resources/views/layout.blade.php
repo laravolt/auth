@@ -1,24 +1,39 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Authentication</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.css">
-</head>
-<body>
+    <title>@yield('site.title', "Welcome Home") | {{ config('app.name') }}</title>
 
-<div class="ui divider hidden"></div>
-<div class="ui segment basic center aligned">
-    <a href="{{ url('/') }}"><i class="icon home"></i></a>
-</div>
-<div class="ui divider hidden"></div>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('laravolt/semantic/semantic.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('laravolt/css/all.css') }}"/>
+
+    @stack('style')
+
+</head>
+
+<body class="layout--auth">
+
+<div class="ui divider hidden section"></div>
+<div class="ui divider hidden section"></div>
 
 <div class="ui centered stackable grid">
-    <div class="column seven wide center aligned">
-        @include('auth::error')
-        @yield('content')
+    <div class="column six wide center aligned">
+        <h1 class="ui header top attached block">{{ config('app.name') }}</h1>
+
+        <div class="ui segment very padded bottom attached">
+            @include('auth::error')
+            @yield('content')
+        </div>
     </div>
 </div>
+
+
+<script type="text/javascript" src="{{ asset('laravolt/js/all.js') }}"></script>
+
+@stack('script')
 
 </body>
 </html>

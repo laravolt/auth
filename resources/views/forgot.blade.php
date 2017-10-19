@@ -6,7 +6,7 @@
         <?php flash()->success(session('status')); ?>
     @endif
 
-    <form class="ui form segment very padded" method="POST" action="{{ route('auth::forgot') }}">
+    <form class="ui form" method="POST" action="{{ route('auth::forgot') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="ui field left icon input fluid">
@@ -15,7 +15,9 @@
         </div>
         <button type="submit" class="ui fluid button primary">@lang('auth::auth.send_reset_password_link')</button>
     </form>
+
     @if(config('laravolt.auth.registration.enable'))
-    @lang('auth::auth.not_registered_yet?') <a href="{{ route('auth::register') }}">@lang('auth::auth.register_here')</a>
+        <div class="ui divider hidden section"></div>
+        @lang('auth::auth.not_registered_yet?') <a href="{{ route('auth::register') }}">@lang('auth::auth.register_here')</a>
     @endif
 @endsection
