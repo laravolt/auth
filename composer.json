@@ -49,7 +49,7 @@
         },
         "laravel": {
             "providers": [
-                "Laravolt\\Avatar\\ServiceProvider"
+                "Laravolt\\Auth\\ServiceProvider"
             ]
         }
     }
