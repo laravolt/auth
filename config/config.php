@@ -1,6 +1,6 @@
 <?php
 return [
-    'layout'       => 'auth::layout',
+    'layout'       => 'ui::layouts.centered',
     'captcha'      => false,
     'registration' => [
         'enable' => true,
