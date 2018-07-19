@@ -2,8 +2,11 @@
 
 namespace Laravolt\Auth\Tests;
 
+use Anhskohbo\NoCaptcha\NoCaptchaServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Laravolt\Auth\ServiceProvider as AuthServiceProvider;
 use Laravolt\Auth\Tests\Dummy\User;
+use Laravolt\Ui\ServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 
@@ -28,9 +31,10 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Laravolt\Auth\ServiceProvider::class,
-            'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
+            AuthServiceProvider::class,
+            NoCaptchaServiceProvider::class,
             ConsoleServiceProvider::class,
+            ServiceProvider::class,
         ];
     }
 

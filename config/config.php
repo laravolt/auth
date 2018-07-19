@@ -2,6 +2,7 @@
 return [
     'layout'       => 'ui::layouts.centered',
     'captcha'      => false,
+    'identifier'   => 'email',
     'registration' => [
         'enable' => true,
         'status' => 'ACTIVE'

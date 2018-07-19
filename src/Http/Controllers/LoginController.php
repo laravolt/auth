@@ -51,6 +51,11 @@ class LoginController extends Controller
         return view('auth::login');
     }
 
+    public function username()
+    {
+        return config('laravolt.auth.identifier');
+    }
+
     protected function validateLogin(Request $request)
     {
         $rules = [

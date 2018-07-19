@@ -12,7 +12,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="ui field left icon input fluid">
-            <input type="email" name="email" placeholder="@lang('auth::auth.identifier')" value="{{ old('email') }}">
+            <input type="text" name="{{ config('laravolt.auth.identifier') }}" placeholder="@lang('auth::auth.identifier')" value="{{ old('email') }}">
             <i class="mail icon"></i>
         </div>
         <div class="ui field left icon input fluid">
