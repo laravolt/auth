@@ -49,3 +49,9 @@
     @endif
 
 @endsection
+
+@push('script')
+    @if(config('laravolt.auth.captcha'))
+        {!! app('captcha')->renderJs() !!}
+    @endif
+@endpush

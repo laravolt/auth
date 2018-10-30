@@ -43,3 +43,10 @@ return [
     ],
 ];
 ```
+
+### Captcha
+jika menggunakan captcha maka set config `'captcha' => true` dan tambahkan pada `.env`
+```
+NOCAPTCHA_SECRET=YOUR_RECAPTCHA_SECRET
+NOCAPTCHA_SITEKEY=YOUR_RECAPTCHA_SITEKEY
+```
