@@ -70,10 +70,13 @@ class LoginTest extends TestCase
                  ->zeroOrMoreTimes()
                  ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
 
+        NoCaptcha::shouldReceive('renderJs')
+                 ->zeroOrMoreTimes();
+
         NoCaptcha::shouldReceive('verifyResponse')
                  ->once()
                  ->andReturn(true);
-        
+
         $this->visitRoute('auth::login')
             ->type('andi@laravolt.com', 'email')
             ->type('asdf1234', 'password')
