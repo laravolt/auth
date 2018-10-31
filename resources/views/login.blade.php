@@ -12,7 +12,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         <div class="ui field left icon input fluid">
-            <input type="text" name="{{ config('laravolt.auth.identifier') }}" placeholder="@lang('auth::auth.identifier')" value="{{ old('email') }}">
+            <input type="text" name="{{ config('laravolt.auth.identifier') }}" placeholder="@lang('auth::auth.identifier')" value="{{ old(config('laravolt.auth.identifier')) }}">
             <i class="mail icon"></i>
         </div>
         <div class="ui field left icon input fluid">
@@ -49,3 +49,9 @@
     @endif
 
 @endsection
+
+@push('script')
+    @if(config('laravolt.auth.captcha'))
+        {!! app('captcha')->renderJs() !!}
+    @endif
+@endpush
