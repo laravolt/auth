@@ -51,7 +51,9 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
         $app['config']->set('laravolt.auth.redirect.after_reset_password', '/reset-password-success');
         $app['config']->set('session.expire_on_close', false);
-        //$app->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+
+        $app['config']->set('view.paths', [__DIR__.'/Dummy']);
+        $app['config']->set('laravolt.auth.layout', 'layout');
     }
 
     protected function setUpDatabase()
