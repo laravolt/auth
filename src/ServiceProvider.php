@@ -97,6 +97,10 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerTranslations()
     {
         $this->loadTranslationsFrom($this->packagePath('resources/lang'), 'auth');
+
+        $this->publishes(
+            [$this->packagePath('resources/lang') => resource_path('lang/vendor/auth')]
+        );
     }
 
     /**
