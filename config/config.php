@@ -1,11 +1,13 @@
 <?php
+
 return [
     'layout'       => 'ui::layouts.auth',
     'captcha'      => false,
     'identifier'   => 'email',
     'registration' => [
-        'enable' => true,
-        'status' => 'ACTIVE'
+        'enable'         => true,
+        'status'         => 'ACTIVE',
+        'implementation' => \Laravolt\Auth\DefaultUserRegistrar::class,
     ],
     'activation'   => [
         'enable'        => false,
@@ -16,8 +18,8 @@ return [
         'middleware' => ['web'],
         'prefix'     => 'auth',
     ],
-    'redirect'    => [
-        'after_login' => '/',
+    'redirect'     => [
+        'after_login'          => '/',
         'after_reset_password' => '/',
     ],
 ];

@@ -4,6 +4,7 @@ namespace Laravolt\Auth;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Laravolt\Auth\Registration\UserRegistrar;
 
 /**
  * Class PackageServiceProvider
@@ -22,6 +23,11 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
+        $this->app->bind('laravolt.auth.registrar', function(){
+            $class = config('laravolt.auth.registration.implementation');
+
+            return new $class;
+        });
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Laravolt\Auth\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Laravolt\Auth\Activation;
@@ -77,14 +76,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make(
-            $data,
-            [
-                'name'     => 'required|max:255',
-                'email'    => 'required|email|max:255|unique:users',
-                'password' => 'required|min:6',
-            ]
-        );
+        return app('laravolt.auth.registrar')->validate($data);
     }
 
     /**
@@ -95,15 +87,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = app(config('auth.providers.users.model'));
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
-        $user->status = config('laravolt.auth.activation.enable') ?
-            config('laravolt.auth.activation.status_before') :
-            config('laravolt.auth.registration.status');
-        $user->save();
-
-        return $user;
+        return app('laravolt.auth.registrar')->register($data);
     }
 }
