@@ -16,17 +16,19 @@ Laravel authentication with some additional features:
 ## Installation
 
 * Run `composer require laravolt/auth`
-* Register `Laravolt\Auth\ServiceProvider::class` as service providers
+* For Laravel 5.4 or below, add `Laravolt\Auth\ServiceProvider::class` as service providers
 
 ## Configuration
 ```php
 <?php
 return [
-    'layout'       => 'auth::layout',
+    'layout'       => 'ui::layouts.auth',
     'captcha'      => false,
+    'identifier'   => 'email',
     'registration' => [
-        'enable' => true,
-        'status' => 'ACTIVE'
+        'enable'         => true,
+        'status'         => 'ACTIVE',
+        'implementation' => \Laravolt\Auth\DefaultUserRegistrar::class,
     ],
     'activation'   => [
         'enable'        => false,
@@ -37,16 +39,17 @@ return [
         'middleware' => ['web'],
         'prefix'     => 'auth',
     ],
-    'redirect'    => [
-        'after_login' => '/',
+    'redirect'     => [
+        'after_login'          => '/',
         'after_reset_password' => '/',
     ],
 ];
 ```
 
 ### Captcha
-jika menggunakan captcha maka set config `'captcha' => true` dan tambahkan pada `.env`
+If you enable captcha (by setting `'captcha' => true` in config file), please add following entries to `.env`:
 ```
 NOCAPTCHA_SECRET=YOUR_RECAPTCHA_SECRET
 NOCAPTCHA_SITEKEY=YOUR_RECAPTCHA_SITEKEY
 ```
+You can obtain them from www.google.com/recaptcha/admin.
