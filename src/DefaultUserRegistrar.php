@@ -7,7 +7,7 @@ use Laravolt\Auth\Contracts\UserRegistrar;
 
 class DefaultUserRegistrar implements UserRegistrar
 {
-    public function validate($data)
+    public function validate(array $data)
     {
         return Validator::make(
             $data,
@@ -19,7 +19,7 @@ class DefaultUserRegistrar implements UserRegistrar
         );
     }
 
-    public function register($data)
+    public function register(array $data)
     {
         $user = app(config('auth.providers.users.model'));
         $user->name = $data['name'];
