@@ -132,3 +132,16 @@ class CustomUserRegistrar implements UserRegistrar
 }
 
 ```
+
+After that, you must update auth config (located in `config/laravolt/auth.php`, if not, just run `php artisan vendor:publish`).
+
+```php
+...
+    'registration' => [
+        // During the process, data from registration form will be passed to this class.
+        // You may create your own implementation by creating UserRegistrar class.
+        'implementation' => \App\Registration\CustomUserRegistrar::class,
+    ],
+
+...
+```
