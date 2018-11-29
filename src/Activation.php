@@ -3,6 +3,7 @@
 namespace Laravolt\Auth;
 
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ trait Activation
     {
         $this->validator($request->all())->validate();
 
-        $user = $this->create($request->all());
+        event(new Registered($user = $this->create($request->all())));
         $token = $this->createToken($user);
 
         Mail::to($user)->send(new ActivationMail($token));
