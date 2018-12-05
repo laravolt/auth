@@ -3,12 +3,13 @@
 namespace Laravolt\Auth;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
 use Laravolt\Auth\Mail\ActivationMail;
+use Illuminate\Database\Eloquent\Model;
+use Laravolt\Auth\Contracts\ShouldActivate;
 
 trait Activation
 {
@@ -19,13 +20,17 @@ trait Activation
         event(new Registered($user = $this->create($request->all())));
         $token = $this->createToken($user);
 
-        Mail::to($user)->send(new ActivationMail($token));
+        $this->notifyForActivation($user, $token);
 
         return redirect()->back()->withSuccess(trans('auth::auth.registration_success'));
     }
 
     public function activate($token)
     {
+        if (app('laravolt.auth.registrar') instanceof ShouldActivate) {
+            return app('laravolt.auth.registrar')->activate($token);
+        }
+        
         $token = DB::table('users_activation')->whereToken($token)->pluck('user_id');
 
         if ($token->isEmpty()) {
@@ -53,5 +58,14 @@ trait Activation
         ]);
 
         return $token;
+    }
+
+    protected function notifyForActivation($user, $token)
+    {
+        if (app('laravolt.auth.registrar') instanceof ShouldActivate) {
+            app('laravolt.auth.registrar')->notify($user, $token);
+        } else {
+            Mail::to($user)->send(new ActivationMail($token));
+        }
     }
 }
