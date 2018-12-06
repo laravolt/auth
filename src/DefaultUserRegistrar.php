@@ -2,10 +2,15 @@
 
 namespace Laravolt\Auth;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Laravolt\Auth\Mail\ActivationMail;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Laravolt\Auth\Contracts\UserRegistrar;
+use Laravolt\Auth\Contracts\ShouldActivate;
 
-class DefaultUserRegistrar implements UserRegistrar
+class DefaultUserRegistrar implements UserRegistrar, ShouldActivate
 {
     public function validate(array $data)
     {
@@ -31,5 +36,29 @@ class DefaultUserRegistrar implements UserRegistrar
         $user->save();
 
         return $user;
+    }
+
+    public function notify(Model $user, $token)
+    {
+        Mail::to($user)->send(new ActivationMail($token));
+    }
+
+    public function activate($token)
+    {
+        $token = \DB::table('users_activation')->whereToken($token)->pluck('user_id');
+
+        if ($token->isEmpty()) {
+            abort(404);
+        }
+
+        $userId = $token->first();
+
+        $user = app(config('auth.providers.users.model'))->findOrFail($userId);
+        $user->status = config('laravolt.auth.activation.status_after');
+        $user->save();
+
+        \DB::table('users_activation')->whereToken($token)->delete();
+
+        return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
     }
 }
