@@ -27,25 +27,7 @@ trait Activation
 
     public function activate($token)
     {
-        if (app('laravolt.auth.registrar') instanceof ShouldActivate) {
-            return app('laravolt.auth.registrar')->activate($token);
-        }
-        
-        $token = DB::table('users_activation')->whereToken($token)->pluck('user_id');
-
-        if ($token->isEmpty()) {
-            abort(404);
-        }
-
-        $userId = $token->first();
-
-        $user = app(config('auth.providers.users.model'))->findOrFail($userId);
-        $user->status = config('laravolt.auth.activation.status_after');
-        $user->save();
-
-        DB::table('users_activation')->whereToken($token)->delete();
-
-        return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
+        return app('laravolt.auth.registrar')->activate($token);
     }
 
     protected function createToken(Model $user)
@@ -62,10 +44,6 @@ trait Activation
 
     protected function notifyForActivation($user, $token)
     {
-        if (app('laravolt.auth.registrar') instanceof ShouldActivate) {
-            app('laravolt.auth.registrar')->notify($user, $token);
-        } else {
-            Mail::to($user)->send(new ActivationMail($token));
-        }
+        app('laravolt.auth.registrar')->notify($user, $token);
     }
 }
