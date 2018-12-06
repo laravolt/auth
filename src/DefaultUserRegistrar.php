@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Laravolt\Auth\Mail\ActivationMail;
 
-
 class DefaultUserRegistrar implements UserRegistrar, ShouldActivate
 {
     public function validate(array $data)
