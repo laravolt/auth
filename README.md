@@ -96,7 +96,7 @@ You can modify the view located in `resources/views/vendor/auth/register.blade.p
 Create new class to handle user registration that implements `Laravolt\Auth\Contracts\UserRegistrar` contract.
 You must implement two method related to registration:
 1. `validate($data)` to handle validation logic.
-1. `register($data)` to handle user creation logic.
+2. `register($data)` to handle user creation logic.
 
 ```php
 <?php
@@ -107,30 +107,85 @@ use Laravolt\Auth\Contracts\UserRegistrar;
 
 class CustomUserRegistrar implements UserRegistrar
 {
+    /**
+     * Validate data.
+     * 
+     * @param array $data
+     */
     public function validate(array $data)
     {
         // Modify default behaviour, or completely change it
-        // return Validator::make(
-        //     $data,
-        //     [
-        //         'name'     => 'required|max:255',
-        //         'email'    => 'required|email|max:255|unique:users',
-        //         'password' => 'required|min:6',
-        //     ]
-        // );
+        return Validator::make(
+            $data,
+            [
+                'name'     => 'required|max:255',
+                'email'    => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6',
+            ]
+        );
     }
 
+    /**
+     * Create model.
+     * 
+     * @param $
+     * 
+     */
     public function register(array $data)
     {
-        $user = new User();
+        // create Authenticatable model.
+        $user = User::create($data);
         
-        // anything else here
-        
-        // Just make sure to return $user (Authenticable)
+        // return Authenticatable model.
         return $user;
     }
 }
 
+```
+
+#### Modify Activation Logic
+
+add `Laravolt\Auth\Contracts\ShouldActivate` implementation to your `registration.implementation` class by add these function to your registrar class.
+1. `notify(Model $user, $token)`
+2. `activate($token)`
+```php
+...
+class CustomUserRegistrar implements UserRegistrar, ShouldActivate
+{
+    ...
+
+    /**
+     * Notify if user to activate the user with the token provided.
+     * 
+     * @param \Illuminate\Database\Eloquent\Model|Authenticatable $user
+     * @param string $token
+     * @return void
+     */
+    public function notify(Model $user, $token)
+    {
+        //
+    }
+
+    /**
+     * Activation method by the token provided.
+     * 
+     * @param string $token
+     * @return \Illuminate\Http\Response
+     */
+    public function activate($token)
+    {
+        $token = \DB::table('users_activation')->whereToken($token)->first();
+
+        if (! $token) {
+            abort(404);
+        }
+
+        \User::where('id', $token->user_id)->update(['status' => config('laravolt.auth.activation.status_after')]);
+        \DB::table('users_activation')->where('user_id', $token->user_id)->delete();
+
+        return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
+    }
+}
 ```
 
 After that, you must update auth config (located in `config/laravolt/auth.php`, if not, just run `php artisan vendor:publish`).
