@@ -53,6 +53,7 @@ class RegisterTest extends TestCase
              ->type($name, 'name')
              ->type($email, 'email')
              ->type('asdf1234', 'password')
+             ->type('asdf1234', 'password_confirmation')
              ->press(trans('auth::auth.register'))
              ->seePageIs(config('laravolt.auth.redirect.after_register'))
              ->seeInDatabase('users', [
@@ -76,6 +77,7 @@ class RegisterTest extends TestCase
              ->type('Jon Dodo', 'name')
              ->type($email, 'email')
              ->type('asdf1234', 'password')
+             ->type('asdf1234', 'password_confirmation')
              ->press(trans('auth::auth.register'))
              ->seeRouteIs('auth::register');
 
@@ -104,5 +106,20 @@ class RegisterTest extends TestCase
     {
         $this->post(route('auth::register'))
             ->assertSessionHasErrors();
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_handle_wrong_password_confirmation()
+    {
+        $this->visitRoute('auth::register')
+             ->type('Fulan', 'name')
+             ->type('fulan@example.net', 'email')
+             ->type('asdf1234', 'password')
+             ->type('qwer5678', 'password_confirmation')
+             ->press(trans('auth::auth.register'))
+             ->seeRouteIs('auth::register');
+
     }
 }

@@ -17,6 +17,10 @@
             <input type="password" name="password" placeholder="@lang('auth::auth.password')">
             <i class="lock icon"></i>
         </div>
+        <div class="ui field left icon input fluid">
+            <input type="password" name="password_confirmation" placeholder="@lang('auth::auth.password_confirmation')">
+            <i class="lock icon"></i>
+        </div>
         <button type="submit" class="ui button fluid primary">@lang('auth::auth.register')</button>
     </form>
 
