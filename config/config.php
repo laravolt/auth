@@ -20,6 +20,7 @@ return [
     ],
     'redirect'     => [
         'after_login'          => '/',
+        'after_register'       => '/',
         'after_reset_password' => '/',
     ],
 ];

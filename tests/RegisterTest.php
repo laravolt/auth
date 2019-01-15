@@ -12,7 +12,7 @@ class RegisterTest extends TestCase
     {
         parent::setUp();
 
-        Route::get('login-success', function () {
+        Route::get('register-success', function () {
             return 'Login success';
         });
     }
@@ -43,7 +43,7 @@ class RegisterTest extends TestCase
     public function it_can_handle_correct_registration()
     {
         $this->app['config']->set('laravolt.auth.activation.enable', false);
-        $this->app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
+        $this->app['config']->set('laravolt.auth.redirect.after_register', '/register-success');
 
         $name = 'Jon Dodo';
         $email = 'jon@example.com';
@@ -54,7 +54,7 @@ class RegisterTest extends TestCase
              ->type($email, 'email')
              ->type('asdf1234', 'password')
              ->press(trans('auth::auth.register'))
-             ->seePageIs(config('laravolt.auth.redirect.after_login'))
+             ->seePageIs(config('laravolt.auth.redirect.after_register'))
              ->seeInDatabase('users', [
                  'name'   => $name,
                  'email'  => $email,
