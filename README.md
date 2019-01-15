@@ -70,6 +70,8 @@ return [
         // Where to redirect after successfully login
         'after_login'          => '/',
         
+        'after_register'       => '/',
+        
         // Where to redirect after successfully reset password
         'after_reset_password' => '/',
     ],
