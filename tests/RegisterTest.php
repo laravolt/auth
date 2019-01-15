@@ -120,6 +120,5 @@ class RegisterTest extends TestCase
              ->type('qwer5678', 'password_confirmation')
              ->press(trans('auth::auth.register'))
              ->seeRouteIs('auth::register');
-
     }
 }
