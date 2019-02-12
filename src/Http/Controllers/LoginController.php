@@ -58,15 +58,12 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        $rules = [
-            $this->username() => 'required',
-            'password'        => 'required',
-        ];
-
-        if (config('laravolt.auth.captcha')) {
-            $rules['g-recaptcha-response'] = 'required|captcha';
-        }
-
+        $rules = app('laravolt.auth.login')->rules($request);
         $this->validate($request, $rules);
+    }
+
+    protected function credentials(Request $request)
+    {
+        return app('laravolt.auth.login')->credentials($request);
     }
 }

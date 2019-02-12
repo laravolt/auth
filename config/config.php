@@ -4,6 +4,9 @@ return [
     'layout'       => 'ui::layouts.auth',
     'captcha'      => false,
     'identifier'   => 'email',
+    'login' => [
+        'implementation' => \Laravolt\Auth\DefaultLogin::class,
+    ],
     'registration' => [
         'enable'         => true,
         'status'         => 'ACTIVE',

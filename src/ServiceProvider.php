@@ -28,6 +28,12 @@ class ServiceProvider extends BaseServiceProvider
 
             return new $class;
         });
+
+        $this->app->bind('laravolt.auth.login', function () {
+            $class = config('laravolt.auth.login.implementation');
+
+            return new $class;
+        });
     }
 
     /**

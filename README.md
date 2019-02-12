@@ -32,6 +32,11 @@ return [
     // Column name to be checked for authentication (login)
     'identifier'   => 'email',
 
+    // Configuration related to login process
+    'login' => [
+        'implementation' => \Laravolt\Auth\DefaultLogin::class,
+    ],
+    
     // Configuration related to registration process
     'registration' => [
         
@@ -86,6 +91,18 @@ NOCAPTCHA_SECRET=YOUR_RECAPTCHA_SECRET
 NOCAPTCHA_SITEKEY=YOUR_RECAPTCHA_SITEKEY
 ```
 You can obtain them from www.google.com/recaptcha/admin.
+
+## Custom Login Form
+
+### Modify Form (View File)
+Run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider"`. 
+You can modify the view located in `resources/views/vendor/auth/login.blade.php`.
+
+### Modify Logic
+Create new class to handle user login that implements `Laravolt\Auth\Contracts\Login` contract.
+You must implement two method related to registration:
+1. `rules(Request $request)` to get validation rules.
+2. `credentials(Request $request)` to check valid credentials.
 
 ## Custom Registration Form
 Sometimes you need to modify registration form, e.g. add more fields, change logic, or add some validation.

@@ -2,7 +2,6 @@
 
 namespace Laravolt\Auth;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Laravolt\Auth\Mail\ActivationMail;
 use Illuminate\Database\Eloquent\Model;
