@@ -44,19 +44,19 @@ class DefaultUserRegistrar implements UserRegistrar, ShouldActivate
 
     public function activate($token)
     {
-        $token = \DB::table('users_activation')->whereToken($token)->pluck('user_id');
+        $userIds = \DB::table('users_activation')->whereToken($token)->pluck('user_id');
 
-        if ($token->isEmpty()) {
+        if ($userIds->isEmpty()) {
             abort(404);
         }
 
-        $userId = $token->first();
+        $userId = $userIds->first();
 
         $user = app(config('auth.providers.users.model'))->findOrFail($userId);
         $user->status = config('laravolt.auth.activation.status_after');
         $user->save();
 
-        \DB::table('users_activation')->whereToken($token)->delete();
+        \DB::table('users_activation')->whereUserId($userId)->delete();
 
         return redirect()->route('auth::login')->withSuccess(trans('auth::auth.activation_success'));
     }
