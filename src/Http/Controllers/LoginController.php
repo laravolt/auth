@@ -34,7 +34,7 @@ class LoginController extends Controller
      *
      * @var \Laravolt\Auth\Contracts\Login
      */
-    protected $contract;
+    protected $login;
 
     /**
      * Create a new controller instance.
@@ -47,7 +47,7 @@ class LoginController extends Controller
 
         $this->redirectTo = config('laravolt.auth.redirect.after_login');
         
-        $this->contract = app('laravolt.auth.login');
+        $this->login = app('laravolt.auth.login');
     }
 
     /**
@@ -67,13 +67,13 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        $rules = $this->contract->rules($request);
+        $rules = $this->login->rules($request);
         $this->validate($request, $rules);
     }
 
     protected function credentials(Request $request)
     {
-        return $this->contract->credentials($request);
+        return $this->login->credentials($request);
     }
 
     /**
@@ -85,8 +85,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if (method_exists($this->contract, 'authenticated')) {
-            return $this->contract->authenticated($request, $user);
+        if (method_exists($this->login, 'authenticated')) {
+            return $this->login->authenticated($request, $user);
         }
     }
 }
