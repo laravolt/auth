@@ -103,6 +103,8 @@ Create new class to handle user login that implements `Laravolt\Auth\Contracts\L
 You must implement two method related to registration:
 1. `rules(Request $request)` to get validation rules.
 2. `credentials(Request $request)` to check valid credentials.
+optionally:
+1. `authenticated(Request $request, $user)` to handle after login, it should be returned `\Illuminate\Http\Response` or `null`
 
 ## Custom Registration Form
 Sometimes you need to modify registration form, e.g. add more fields, change logic, or add some validation.
