@@ -30,6 +30,13 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * The custom login contract instance.
+     *
+     * @var \Laravolt\Auth\Contracts\Login
+     */
+    protected $login;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -39,6 +46,8 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
 
         $this->redirectTo = config('laravolt.auth.redirect.after_login');
+        
+        $this->login = app('laravolt.auth.login');
     }
 
     /**
@@ -58,12 +67,26 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        $rules = app('laravolt.auth.login')->rules($request);
+        $rules = $this->login->rules($request);
         $this->validate($request, $rules);
     }
 
     protected function credentials(Request $request)
     {
-        return app('laravolt.auth.login')->credentials($request);
+        return $this->login->credentials($request);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if (method_exists($this->login, 'authenticated')) {
+            return $this->login->authenticated($request, $user);
+        }
     }
 }
