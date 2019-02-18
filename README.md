@@ -119,7 +119,9 @@ Create new class to handle user registration that implements `Laravolt\Auth\Cont
 You must implement two method related to registration:
 1. `validate($data)` to handle validation logic.
 2. `register($data)` to handle user creation logic.
-
+optionally:
+1. `registered(Request $request, $user)` to handle after registration is completed, it should be returned `\Illuminate\Http\Response` or `null`
+   
 ```php
 <?php
 namespace App\Registration;

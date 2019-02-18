@@ -22,7 +22,8 @@ trait Activation
 
         $this->notifyForActivation($user, $token);
 
-        return redirect()->back()->withSuccess(trans('auth::auth.registration_success'));
+        return $this->registered($request, $user) ?:
+            redirect()->back()->withSuccess(trans('auth::auth.registration_success'));
     }
 
     public function activate($token)

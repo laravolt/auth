@@ -33,6 +33,13 @@ class RegisterController extends Controller
     protected $redirectTo;
 
     /**
+     * Registrar instance.
+     *
+     * @var \Laravolt\Auth\Contracts\UserRegistrar
+     */
+    protected $registrar;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -41,6 +48,8 @@ class RegisterController extends Controller
     {
         $this->redirectTo = config('laravolt.auth.redirect.after_register', '/');
         $this->middleware('guest');
+
+        $this->registrar = app('laravolt.auth.registrar');
     }
 
     /**
@@ -76,7 +85,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return app('laravolt.auth.registrar')->validate($data);
+        return $this->registrar->validate($data);
     }
 
     /**
@@ -87,6 +96,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return app('laravolt.auth.registrar')->register($data);
+        return $this->registrar->register($data);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        if (method_exists($this->registrar, 'registered')) {
+            return $this->registrar->registered($request, $user);
+        }
     }
 }
