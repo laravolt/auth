@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'activation_success'       => 'Aktivasi berhasil. Sila login.',
+    'already_registered?'      => 'Sudah punya akun?',
+    'click_to_activate'        => 'Sila klik <a href=":link">pautan ini</a> untuk mengaktifkan akun Anda.',
+    'email'                    => 'Alamat Email',
+    'failed'                   => 'Login gagal',
+    'forgot_password'          => 'Lupa kata laluan',
+    'identifier'               => 'Email',
+    'login'                    => 'Log Masuk',
+    'login_here'               => 'Log masuk disini',
+    'name'                     => 'Nama Lengkap',
+    'not_registered_yet?'      => 'Belum mendaftar?',
+    'password'                 => 'Kata Laluan',
+    'password_confirmation'    => 'Sahkan Kata Laluan',
+    'password_new'             => 'Kata Laluan Baru',
+    'password_confirm'         => 'Konfirmasi Kata Laluan Baru',
+    'register'                 => 'Daftar',
+    'register_here'            => 'Daftar disini',
+    'registration_success'     => 'Pendaftaran berhasil. Silak cek email Anda untuk melakukan aktivasi akun.',
+    'remember'                 => 'Ingat saya di komputer ini',
+    'reset_password'           => 'Reset Kata Laluan',
+    'send_reset_password_link' => 'Kirim Link Reset Kata Laluan',
+];
