@@ -13,7 +13,7 @@ return [
     'name'                     => 'Name',
     'not_registered_yet?'      => 'Not registered yet?',
     'password'                 => 'Password',
-    'password_confirmation'    => 'Confirm your password',
+    'password_confirmation'    => 'Confirm Your Password',
     'password_new'             => 'New Password',
     'password_confirm'         => 'Confirm New Password',
     'register'                 => 'Register',

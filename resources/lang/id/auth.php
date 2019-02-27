@@ -13,6 +13,7 @@ return [
     'name'                     => 'Nama Lengkap',
     'not_registered_yet?'      => 'Belum punya akun?',
     'password'                 => 'Password',
+    'password_confirmation'    => 'Konfirmasi Password',
     'password_new'             => 'Password Baru',
     'password_confirm'         => 'Konfirmasi Password Baru',
     'register'                 => 'Daftar',
