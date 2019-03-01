@@ -2,7 +2,7 @@
 
 return [
     'activation_success'       => 'Aktivasi berhasil. Sila login.',
-    'already_registered?'      => 'Sudah punya akun?',
+    'already_registered?'      => 'Sudah punya akaun?',
     'click_to_activate'        => 'Sila klik <a href=":link">pautan ini</a> untuk mengaktifkan akun Anda.',
     'email'                    => 'Alamat Email',
     'failed'                   => 'Login gagal',
@@ -10,7 +10,7 @@ return [
     'identifier'               => 'Email',
     'login'                    => 'Log Masuk',
     'login_here'               => 'Log masuk disini',
-    'name'                     => 'Nama Lengkap',
+    'name'                     => 'Nama Penuh',
     'not_registered_yet?'      => 'Belum mendaftar?',
     'password'                 => 'Kata Laluan',
     'password_confirmation'    => 'Sahkan Kata Laluan',
