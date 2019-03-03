@@ -9,6 +9,7 @@ use Laravolt\Auth\Tests\Dummy\User;
 use Laravolt\Ui\ServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
+use Stolz\Assets\Laravel\ServiceProvider as AssetsServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -35,6 +36,7 @@ abstract class TestCase extends BaseTestCase
             NoCaptchaServiceProvider::class,
             ConsoleServiceProvider::class,
             ServiceProvider::class,
+            AssetsServiceProvider::class,
         ];
     }
 
