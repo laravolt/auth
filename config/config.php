@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'layout'       => 'ui::layouts.auth',
+    'layout'       => 'ui::layouts.public.full',
     'captcha'      => false,
     'identifier'   => 'email',
     'login' => [
