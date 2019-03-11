@@ -10,6 +10,8 @@ return [
     'identifier'               => 'Email',
     'login'                    => 'Login',
     'login_here'               => 'Login disini',
+    'login_cas'                => 'Login via CAS',
+    'login_cas_failed'         => 'Tidak ada pengguna yang berasosiasi dengan akun CAS tersebut',
     'name'                     => 'Nama Lengkap',
     'not_registered_yet?'      => 'Belum punya akun?',
     'password'                 => 'Password',

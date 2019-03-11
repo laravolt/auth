@@ -10,6 +10,8 @@ return [
     'identifier'               => 'Email',
     'login'                    => 'Login',
     'login_here'               => 'Login Here',
+    'login_cas'                => 'Login Using CAS',
+    'login_cas_failed'         => 'Cannot find associated user for this CAS account',
     'name'                     => 'Name',
     'not_registered_yet?'      => 'Not registered yet?',
     'password'                 => 'Password',

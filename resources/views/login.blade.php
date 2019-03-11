@@ -41,6 +41,12 @@
 
     </form>
 
+    @if(config('laravolt.auth.cas.enable'))
+        <div class="ui horizontal divider">
+            Or
+        </div>
+        <a href="{{ route('auth::cas.login') }}" class="ui fluid button basic">@lang('auth::auth.login_cas')</a>
+    @endif
 
     @if(config('laravolt.auth.registration.enable'))
         <div class="ui divider hidden section"></div>

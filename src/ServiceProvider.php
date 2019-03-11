@@ -165,6 +165,11 @@ class ServiceProvider extends BaseServiceProvider
                     // Activation Routes...
                     $router->get('activate/{token}', 'ActivationController@activate')->name('activate');
                 }
+
+                if (config('laravolt.auth.cas.enable')) {
+                    $router->get('cas/login', 'Cas\Login')->name('cas.login');
+                    $router->post('cas/logout', 'Cas\Logout')->name('cas.logout');
+                }
             }
         );
     }

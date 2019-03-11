@@ -4,7 +4,7 @@ return [
     'layout'       => 'ui::layouts.public.full',
     'captcha'      => false,
     'identifier'   => 'email',
-    'login' => [
+    'login'        => [
         'implementation' => \Laravolt\Auth\DefaultLogin::class,
     ],
     'registration' => [
@@ -16,6 +16,9 @@ return [
         'enable'        => false,
         'status_before' => 'PENDING',
         'status_after'  => 'ACTIVE',
+    ],
+    'cas'          => [
+        'enable' => true,
     ],
     'router'       => [
         'middleware' => ['web'],
