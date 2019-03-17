@@ -24,7 +24,8 @@
         "anhskohbo/no-captcha": "^3.0.1",
         "doctrine/dbal": "~2.5",
         "laravolt/ui":"^0.2.0",
-        "laravolt/password":"^1.1"
+        "laravolt/password":"^1.1",
+        "adldap2/adldap2-laravel": "^5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7",

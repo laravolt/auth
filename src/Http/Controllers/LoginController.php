@@ -6,6 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravolt\Auth\Services\LdapService;
 
 class LoginController extends Controller
 {
@@ -20,7 +21,10 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, ValidatesRequests;
+    use ValidatesRequests;
+    use AuthenticatesUsers {
+        login as defaultLogin;
+    }
 
     /**
      * Where to redirect users after login / registration.
@@ -28,6 +32,13 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+
+    /**
+     * Whether LDAP authentication enabled or not
+     *
+     * @var boolean
+     */
+    protected $ldapEnabled = false;
 
     /**
      * The custom login contract instance.
@@ -46,7 +57,9 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
 
         $this->redirectTo = config('laravolt.auth.redirect.after_login');
-        
+
+        $this->ldapEnabled = config('laravolt.auth.ldap.enable');
+
         $this->login = app('laravolt.auth.login');
     }
 
@@ -58,6 +71,28 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('auth::login');
+    }
+
+    public function login(Request $request)
+    {
+        if ($this->ldapEnabled) {
+            // try {
+                return $this->ldapLogin($request);
+            // } catch (\Exception $e) {
+            //     return $this->defaultLogin($request);
+            // }
+        }
+
+        return $this->defaultLogin($request);
+    }
+
+    protected function ldapLogin(Request $request)
+    {
+        $ldapService = new LdapService();
+
+        $user = $ldapService->getUser($this->credentials());
+        dd($user);
+        return $this->sendLoginResponse($request);
     }
 
     public function username()

@@ -20,6 +20,9 @@ return [
     'cas'          => [
         'enable' => true,
     ],
+    'ldap'         => [
+        'enable' => true,
+    ],
     'router'       => [
         'middleware' => ['web'],
         'prefix'     => 'auth',
