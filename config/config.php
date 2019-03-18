@@ -18,10 +18,10 @@ return [
         'status_after'  => 'ACTIVE',
     ],
     'cas'          => [
-        'enable' => true,
+        'enable' => false,
     ],
     'ldap'         => [
-        'enable' => true,
+        'enable' => false,
     ],
     'router'       => [
         'middleware' => ['web'],
