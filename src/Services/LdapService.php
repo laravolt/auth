@@ -2,7 +2,8 @@
 
 namespace Laravolt\Auth\Services;
 
-use Adldap\Laravel\Facades\Adldap;
+use Adldap\AdldapInterface;
+use App\User;
 
 class LdapService
 {
@@ -11,52 +12,33 @@ class LdapService
     /**
      * LdapService constructor.
      */
-    public function __construct()
+    public function __construct(AdldapInterface $ldap)
     {
-        $config = $this->config();
-
-        $ldap = new \Adldap\Adldap();
-        $ldap->addProvider($config);
-        $this->ldap = $ldap->connect();
+        $this->ldap = $ldap;
     }
 
-    public function getUser($username, $password)
+    public function getUser($data)
     {
-        $userdn = sprintf(env('ADLDAP_LOGIN_FORMAT'), $username);
-        $loginPassed = $this->ldap->auth()->attempt($userdn, $password);
-        // dump('Auth attemp passed: '.$loginPassed);
+        $username = array_get($data, config('laravolt.auth.identifier'));
+        $password = array_get($data, 'password');
+        $dn = sprintf("uid=%s,%s", $username, env('LDAP_BASE_DN'));
+
+        $loginPassed = $this->ldap->auth()->attempt($dn, $password);
+
         if (!$loginPassed) {
-            throw new \Exception('Wrong username or password');
+            throw new \Exception('LDAP authentication failed');
         }
 
-        $ldapUser = Adldap::search()->where('userPrincipalName', '=', $username)->first();
+        $ldapUser = $this->ldap->search()->where(config('ldap_auth.usernames.ldap.authenticate'), '=', $username)->first();
         if (!$ldapUser) {
             throw new \Exception('Cannot find LDAP user with uid = '.$username);
         }
 
-        $localUser = (app(config('auth.providers.users.model')))->where('ldap_username', '=', $username)->first();
+        $localUser = User::where(config('ldap_auth.usernames.eloquent'), '=', $username)->first();
         if (!$localUser) {
             throw new \Exception('LDAP user exists, but does not have a corresponding local account');
         }
 
-        $savedInformation = $localUser->toArray();
-        unset($savedInformation['ldap_information']);
-
-        $localUser->ldap_information = $savedInformation;
-        $localUser->save();
-
         return $localUser;
-    }
-
-    protected function config()
-    {
-        return [
-            'account_suffix'       => env('ADLDAP_ACCOUNT_SUFFIX'),
-            'domain_controllers'   => [env('ADLDAP_CONTROLLERS')],
-            'base_dn'              => env('ADLDAP_BASEDN'),
-            'admin_username'       => env('ADLDAP_ADMIN_USERNAME'),
-            'admin_password'       => env('ADLDAP_ADMIN_PASSWORD'),
-            'admin_account_suffix' => env('ADLDAP_ADMIN_ACCOUNT_SUFFIX'),
-        ];
     }
 }

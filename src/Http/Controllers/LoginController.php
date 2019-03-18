@@ -76,11 +76,11 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if ($this->ldapEnabled) {
-            // try {
+            try {
                 return $this->ldapLogin($request);
-            // } catch (\Exception $e) {
-            //     return $this->defaultLogin($request);
-            // }
+            } catch (\Exception $e) {
+                return $this->defaultLogin($request);
+            }
         }
 
         return $this->defaultLogin($request);
@@ -88,11 +88,15 @@ class LoginController extends Controller
 
     protected function ldapLogin(Request $request)
     {
-        $ldapService = new LdapService();
+        $ldapService = app(LdapService::class);
 
-        $user = $ldapService->getUser($this->credentials());
-        dd($user);
-        return $this->sendLoginResponse($request);
+        $user = $ldapService->getUser($this->credentials($request));
+
+        if ($user && auth()->login($user)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 
     public function username()
