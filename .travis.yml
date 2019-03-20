@@ -5,18 +5,21 @@ php:
   - 7.2
   - 7.3
 
-env:
-  matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
-
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - travis_retry composer require "satooshi/php-coveralls" --prefer-dist --no-interaction --dev
+  - printf "\n" | pecl install imagick
+  - travis_retry composer install --prefer-source --no-interaction;
 
 script:
-  - ./vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
+  - ./vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml;
 
-after_success:
-  - travis_retry php vendor/bin/coveralls -v
+after_script:
+  - php vendor/bin/coveralls -v;
+
+branches:
+  only:
+    - master
+
+notifications:
+  on_success: never
+  on_failure: always
