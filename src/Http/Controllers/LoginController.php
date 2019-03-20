@@ -90,7 +90,7 @@ class LoginController extends Controller
     {
         $ldapService = app(LdapService::class);
 
-        $ldapService->retrieveUser($this->credentials($request));
+        $ldapService->resolveUser($this->credentials($request));
         $user = $ldapService->eloquentUser();
 
         if ($user && auth()->login($user)) {

@@ -20,7 +20,7 @@ class LdapService
         $this->ldap = $ldap;
     }
 
-    public function retrieveUser($data)
+    public function resolveUser($data)
     {
         $username = array_get($data, config('laravolt.auth.identifier'));
         $password = array_get($data, 'password');
