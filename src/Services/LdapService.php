@@ -3,12 +3,14 @@
 namespace Laravolt\Auth\Services;
 
 use Adldap\AdldapInterface;
-use Adldap\Query\Builder;
-use App\User;
 
 class LdapService
 {
     protected $ldap;
+
+    protected $ldapUser;
+
+    protected $eloquentUser;
 
     /**
      * LdapService constructor.
@@ -18,7 +20,7 @@ class LdapService
         $this->ldap = $ldap;
     }
 
-    public function getUser($data)
+    public function retrieveUser($data)
     {
         $username = array_get($data, config('laravolt.auth.identifier'));
         $password = array_get($data, 'password');
@@ -30,24 +32,18 @@ class LdapService
             throw new \Exception('LDAP authentication failed');
         }
 
-        $discover = config('ldap_auth.usernames.ldap.discover');
-        $ldapUser = $this->ldap->search()->orFilter(
-            function (Builder $builder) use ($discover, $username, $dn) {
-                $builder
-                    ->where($discover, '=', $username)
-                    ->where($discover, '=', $dn);
-            }
-        )->first();
+        $this->ldapUser = app(config('laravolt.auth.ldap.resolver.ldap_user'))->resolve($username);
 
-        if (!$ldapUser) {
-            throw new \Exception(sprintf('Cannot find LDAP user with %s = %s or %s', $discover, $username, $dn));
-        }
+        $this->eloquentUser = app(config('laravolt.auth.ldap.resolver.eloquent_user'))->resolve($username);
+    }
 
-        $localUser = User::where(config('ldap_auth.usernames.eloquent'), '=', $username)->first();
-        if (!$localUser) {
-            throw new \Exception('LDAP user exists, but does not have a corresponding eloquent record');
-        }
+    public function ldapUser()
+    {
+        return $this->ldapUser;
+    }
 
-        return $localUser;
+    public function eloquentUser()
+    {
+        return $this->eloquentUser;
     }
 }

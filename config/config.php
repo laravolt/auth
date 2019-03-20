@@ -21,7 +21,11 @@ return [
         'enable' => false,
     ],
     'ldap'         => [
-        'enable' => false,
+        'enable'   => false,
+        'resolver' => [
+            'eloquent_user' => \Laravolt\Auth\Services\Resolvers\EloquentUserResolver::class,
+            'ldap_user'     => \Laravolt\Auth\Services\Resolvers\LdapUserResolver::class,
+        ],
     ],
     'router'       => [
         'middleware' => ['web'],
