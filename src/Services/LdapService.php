@@ -34,7 +34,7 @@ class LdapService
 
         $this->ldapUser = app(config('laravolt.auth.ldap.resolver.ldap_user'))->resolve($username);
 
-        $this->eloquentUser = app(config('laravolt.auth.ldap.resolver.eloquent_user'))->resolve($username);
+        $this->eloquentUser = app(config('laravolt.auth.ldap.resolver.eloquent_user'))->resolve($this->ldapUser);
     }
 
     public function ldapUser()

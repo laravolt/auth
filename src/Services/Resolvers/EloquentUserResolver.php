@@ -2,10 +2,13 @@
 
 namespace Laravolt\Auth\Services\Resolvers;
 
+use Adldap\Models\User;
+
 class EloquentUserResolver
 {
-    public function resolve($username)
+    public function resolve(User $ldapUser)
     {
+        $username = $ldapUser->getAttribute('uid', 0);
         $column = config('ldap_auth.usernames.eloquent');
         $user = app(config('auth.providers.users.model'))->where($column, '=', $username)->first();
 
