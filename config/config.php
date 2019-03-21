@@ -23,8 +23,8 @@ return [
     'ldap'         => [
         'enable'   => false,
         'resolver' => [
-            'eloquent_user' => \Laravolt\Auth\Services\Resolvers\EloquentUserResolver::class,
             'ldap_user'     => \Laravolt\Auth\Services\Resolvers\LdapUserResolver::class,
+            'eloquent_user' => \Laravolt\Auth\Services\Resolvers\EloquentUserResolver::class,
         ],
     ],
     'router'       => [
