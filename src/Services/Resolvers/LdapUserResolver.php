@@ -17,8 +17,9 @@ class LdapUserResolver
         $this->ldap = $ldap;
     }
 
-    public function resolve($username)
+    public function resolve($data)
     {
+        $username = array_get($data, config('laravolt.auth.identifier'));
         $discover = config('ldap_auth.usernames.ldap.discover');
         $dn = sprintf(env('LDAP_AUTH_FORMAT'), $username);
 

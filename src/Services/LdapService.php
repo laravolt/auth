@@ -32,9 +32,9 @@ class LdapService
             throw new \Exception('LDAP authentication failed');
         }
 
-        $this->ldapUser = app(config('laravolt.auth.ldap.resolver.ldap_user'))->resolve($username);
+        $this->ldapUser = app(config('laravolt.auth.ldap.resolver.ldap_user'))->resolve($data);
 
-        $this->eloquentUser = app(config('laravolt.auth.ldap.resolver.eloquent_user'))->resolve($this->ldapUser);
+        $this->eloquentUser = app(config('laravolt.auth.ldap.resolver.eloquent_user'))->resolve($this->ldapUser, $data);
     }
 
     public function ldapUser()

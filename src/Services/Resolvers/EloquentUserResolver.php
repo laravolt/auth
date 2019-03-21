@@ -6,7 +6,7 @@ use Adldap\Models\User;
 
 class EloquentUserResolver
 {
-    public function resolve(User $ldapUser)
+    public function resolve(User $ldapUser, $data)
     {
         $username = $ldapUser->getAttribute('uid', 0);
         $column = config('ldap_auth.usernames.eloquent');
