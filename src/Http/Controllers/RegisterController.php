@@ -4,6 +4,7 @@ namespace Laravolt\Auth\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Laravolt\Auth\Activation;
 
@@ -70,11 +71,18 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        if (config('laravolt.auth.activation.enable')) {
-            return $this->registerWithActivation($request);
+        DB::beginTransaction();
+        try {
+            if (config('laravolt.auth.activation.enable')) {
+                return $this->registerWithActivation($request);
+            }
+            
+            return $this->registerWithoutActivation($request);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            throw $ex;
         }
-
-        return $this->registerWithoutActivation($request);
     }
 
     /**
