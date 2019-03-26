@@ -129,4 +129,17 @@ class LoginController extends Controller
             return $this->login->authenticated($request, $user);
         }
     }
+
+    /**
+     * The user has been logged out
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        if (method_exists($this->login, 'loggedOut')) {
+            return $this->login->loggedOut($request);
+        }
+    }
 }

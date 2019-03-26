@@ -26,8 +26,14 @@ class DefaultLogin implements Login
         return $request->only($this->identifier(), 'password');
     }
 
+    public function loggedOut(Request $request)
+    {
+        return redirect()->to(config('laravolt.auth.redirect.after_logout', '/'));
+    }
+
     protected function identifier()
     {
         return config('laravolt.auth.identifier');
     }
+
 }

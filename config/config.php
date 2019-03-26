@@ -35,5 +35,6 @@ return [
         'after_login'          => '/',
         'after_register'       => '/',
         'after_reset_password' => '/',
+        'after_logout'         => '/',
     ],
 ];
