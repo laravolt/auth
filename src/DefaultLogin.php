@@ -35,5 +35,4 @@ class DefaultLogin implements Login
     {
         return config('laravolt.auth.identifier');
     }
-
 }
