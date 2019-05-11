@@ -23,7 +23,13 @@ class DefaultLogin implements Login
 
     public function credentials(Request $request)
     {
-        return $request->only($this->identifier(), 'password');
+        $credential = $request->only($this->identifier(), 'password');
+
+        if (config('laravolt.auth.activation.enable')) {
+            $credential['status'] = config('laravolt.auth.activation.status_after');
+        }
+
+        return $credential;
     }
 
     public function loggedOut(Request $request)
