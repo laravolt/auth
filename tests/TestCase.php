@@ -6,7 +6,7 @@ use Anhskohbo\NoCaptcha\NoCaptchaServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Laravolt\Auth\ServiceProvider as AuthServiceProvider;
 use Laravolt\Auth\Tests\Dummy\User;
-use Laravolt\Ui\ServiceProvider;
+use Laravolt\Ui\ServiceProvider as UiServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Stolz\Assets\Laravel\ServiceProvider as AssetsServiceProvider;
@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
             AuthServiceProvider::class,
             NoCaptchaServiceProvider::class,
             ConsoleServiceProvider::class,
-            ServiceProvider::class,
+            UiServiceProvider::class,
             AssetsServiceProvider::class,
         ];
     }
@@ -53,9 +53,6 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('laravolt.auth.redirect.after_login', '/login-success');
         $app['config']->set('laravolt.auth.redirect.after_reset_password', '/reset-password-success');
         $app['config']->set('session.expire_on_close', false);
-
-        $app['config']->set('view.paths', [__DIR__.'/Dummy']);
-        $app['config']->set('laravolt.auth.layout', 'layout');
     }
 
     protected function setUpDatabase()

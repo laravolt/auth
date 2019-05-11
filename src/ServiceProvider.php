@@ -56,6 +56,8 @@ class ServiceProvider extends BaseServiceProvider
         if (config('laravolt.auth.captcha')) {
             $this->app->register('Anhskohbo\NoCaptcha\NoCaptchaServiceProvider');
         }
+
+        \Stolz\Assets\Laravel\Facade::group('laravolt')->add('vegas');
     }
 
     /**
