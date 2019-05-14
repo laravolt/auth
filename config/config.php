@@ -35,6 +35,8 @@ return [
         'after_login'          => '/',
         'after_register'       => '/',
         'after_reset_password' => '/',
+
+        // WARNING: after_logout redirection only valid for Laravel >= 5.7
         'after_logout'         => '/',
     ],
 ];
