@@ -8,7 +8,7 @@ use Laravolt\Auth\Mail\ActivationMail;
 
 class RegisterTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

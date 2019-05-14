@@ -2,13 +2,12 @@
 
 namespace Laravolt\Auth\Tests;
 
-use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use Illuminate\Support\Facades\Route;
 use Laravolt\Auth\Tests\Dummy\User;
 
 class LogoutTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

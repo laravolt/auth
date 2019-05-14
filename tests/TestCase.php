@@ -18,15 +18,10 @@ abstract class TestCase extends BaseTestCase
         return ':memory:';
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpDatabase();
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
     }
 
     protected function getPackageProviders($app)

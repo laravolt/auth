@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class LoginTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
