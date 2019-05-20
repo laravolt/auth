@@ -105,6 +105,7 @@ You must implement two method related to registration:
 2. `credentials(Request $request)` to check valid credentials.
 optionally:
 1. `authenticated(Request $request, $user)` to handle after login, it should be returned `\Illuminate\Http\Response` or `null`
+1. `failed(Request $request)` to handle custom failed response
 
 ## Custom Registration Form
 Sometimes you need to modify registration form, e.g. add more fields, change logic, or add some validation.

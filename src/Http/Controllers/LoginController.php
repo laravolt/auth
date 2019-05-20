@@ -24,6 +24,7 @@ class LoginController extends Controller
     use ValidatesRequests;
     use AuthenticatesUsers {
         login as defaultLogin;
+        sendFailedLoginResponse as defaultSendFailedLoginResponse;
     }
 
     /**
@@ -141,5 +142,14 @@ class LoginController extends Controller
         if (method_exists($this->login, 'loggedOut')) {
             return $this->login->loggedOut($request);
         }
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        if (method_exists($this->login, 'failed')) {
+            return $this->login->failed($request);
+        }
+
+        return $this->defaultSendFailedLoginResponse($request);
     }
 }
