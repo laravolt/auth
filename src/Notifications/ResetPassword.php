@@ -13,7 +13,6 @@ class ResetPassword extends Notification
      * @var string
      */
     public $token;
-    protected $options = ['view' => 'auth::emails.reset'];
 
     /**
      * Create a notification instance.
