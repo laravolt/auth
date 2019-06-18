@@ -44,10 +44,10 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        $this->registerConfigurations();
         $this->registerViews();
         $this->registerMigrations();
         $this->registerTranslations();
-        $this->registerConfigurations();
 
         if (!$this->app->routesAreCached()) {
             $this->registerRoutes();
@@ -86,14 +86,14 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerMigrations()
     {
-        if (version_compare($this->app->version(), '5.3.0', '>=')) {
+        if ($this->app->runningInConsole() && config('laravolt.auth.migrations')) {
             $this->loadMigrationsFrom($this->packagePath('database/migrations'));
-        } else {
-            $this->publishes(
-                [$this->packagePath('database/migrations') => database_path('/migrations')],
-                'migrations'
-            );
         }
+
+        $this->publishes(
+            [$this->packagePath('database/migrations') => database_path('/migrations')],
+            'migrations'
+        );
     }
 
     /**
@@ -147,15 +147,14 @@ class ServiceProvider extends BaseServiceProvider
                 'as'         => 'auth::',
             ],
             function (Router $router) {
-
                 // Authentication Routes...
                 $router->get('login', 'LoginController@showLoginForm')->name('login');
                 $router->post('login', 'LoginController@login')->name('login');
                 $router->any('logout', 'LoginController@logout')->name('logout');
 
                 // Password Reset Routes...
-                $router->get('forgot', 'ForgotPasswordController@showLinkRequestForm')->name('forgot');
-                $router->post('forgot', 'ForgotPasswordController@sendResetLinkEmail')->name('forgot');
+                $router->get('forgot', 'ForgotPasswordController@create')->name('forgot');
+                $router->post('forgot', 'ForgotPasswordController@store')->name('forgot');
                 $router->get('reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
                 $router->post('reset/{token}', 'ResetPasswordController@reset')->name('reset');
 
@@ -179,7 +178,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Loads a path relative to the package base directory
      *
-     * @param  string $path
+     * @param  string  $path
      * @return string
      */
     protected function packagePath($path = '')

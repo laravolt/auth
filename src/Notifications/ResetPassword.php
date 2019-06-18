@@ -37,23 +37,6 @@ class ResetPassword extends Notification
     }
 
     /**
-     * @deprecated
-     * Get the notification message.
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\MessageBuilder
-     */
-    public function message($notifiable)
-    {
-        return $this->line(trans('auth::reset.intro'))
-            ->action(
-                trans('auth::auth.reset_password'),
-                route('auth::reset', ['token' => $this->token, 'email' => urlencode($notifiable->email)])
-            )
-            ->line(trans('auth::reset.outro'));
-    }
-
-    /**
      * Get the notification message.
      *
      * @param  mixed $notifiable

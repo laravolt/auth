@@ -6,6 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Laravolt\Auth\Http\Requests\ForgotPassword;
 
 class ForgotPasswordController extends Controller
 {
@@ -37,7 +38,7 @@ class ForgotPasswordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showLinkRequestForm()
+    public function create()
     {
         return view('auth::forgot');
     }
@@ -45,20 +46,14 @@ class ForgotPasswordController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function sendResetLinkEmail(Request $request)
+    public function store(ForgotPassword $request)
     {
-        $this->validate($request, ['email' => 'required|email']);
-
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $response = $this->broker()->sendResetLink(
-            $request->only('email'),
-            $this->resetNotifier()
-        );
+        $user = app(config('auth.providers.users.model'))->query()->whereEmail($request->email)->firstOrfail();
+        $response = app('password')->sendResetLink($user);
 
         if ($response === Password::RESET_LINK_SENT) {
             return back()->withSuccess(trans($response));

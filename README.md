@@ -17,6 +17,8 @@ Laravel authentication with some additional features:
 
 * Run `composer require laravolt/auth`
 * For Laravel 5.4 or below, add `Laravolt\Auth\ServiceProvider::class` as service providers
+* Optionally, you can run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider" --tag="migrations"` to publish migrations files for further editing
+
 
 ## Configuration
 
@@ -25,7 +27,7 @@ Laravel authentication with some additional features:
 return [
     // Base layout to extend by every view
     'layout'       => 'ui::layouts.auth',
-    
+
     // Enable captcha (Google reCaptcha) on login form
     'captcha'      => false,
 
@@ -36,16 +38,16 @@ return [
     'login' => [
         'implementation' => \Laravolt\Auth\DefaultLogin::class,
     ],
-    
+
     // Configuration related to registration process
     'registration' => [
-        
+
         // Enable or disable registration form
         'enable'         => true,
-        
-        // Default status for newly registered user        
+
+        // Default status for newly registered user
         'status'         => 'ACTIVE',
-        
+
         // During the process, data from registration form will be passed to this class.
         // You may create your own implementation by creating UserRegistrar class.
         'implementation' => \Laravolt\Auth\DefaultUserRegistrar::class,
@@ -56,10 +58,10 @@ return [
         // If enabled, newly registered user are not allowed to login until they click
         // activation link that sent to their email.
         'enable'        => false,
-        
-        // Status for newly registered user, before activation        
+
+        // Status for newly registered user, before activation
         'status_before' => 'PENDING',
-        
+
         // Status for newly registered user, after successfully activate their account
         'status_after'  => 'ACTIVE',
     ],
@@ -74,13 +76,17 @@ return [
     'redirect'     => [
         // Where to redirect after successfully login
         'after_login'          => '/',
-        
+
         // Where to redirect after successfully register
         'after_register'       => '/',
-        
+
         // Where to redirect after successfully reset password
         'after_reset_password' => '/',
     ],
+
+    // Whether to auto load migrations or not.
+    // If set to false, then you must publish the migration files first before running the migrate command
+    'migrations' => false,
 ];
 ```
 
@@ -95,7 +101,7 @@ You can obtain them from www.google.com/recaptcha/admin.
 ## Custom Login Form
 
 ### Modify Form (View File)
-Run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider"`. 
+Run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider"`.
 You can modify the view located in `resources/views/vendor/auth/login.blade.php`.
 
 ### Modify Logic
@@ -112,7 +118,7 @@ Sometimes you need to modify registration form, e.g. add more fields, change log
 There are several way you can accomplish those.
 
 ### Modify Form (View File)
-Run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider"`. 
+Run `php artisan vendor:publish --provider="Laravolt\Auth\ServiceProvider"`.
 You can modify the view located in `resources/views/vendor/auth/register.blade.php`.
 
 ### Modify Logic
@@ -122,7 +128,7 @@ You must implement two method related to registration:
 2. `register($data)` to handle user creation logic.
 optionally:
 1. `registered(Request $request, $user)` to handle after registration is completed, it should be returned `\Illuminate\Http\Response` or `null`
-   
+
 ```php
 <?php
 namespace App\Registration;
@@ -134,7 +140,7 @@ class CustomUserRegistrar implements UserRegistrar
 {
     /**
      * Validate data.
-     * 
+     *
      * @param array $data
      */
     public function validate(array $data)
@@ -152,15 +158,15 @@ class CustomUserRegistrar implements UserRegistrar
 
     /**
      * Create model.
-     * 
+     *
      * @param $
-     * 
+     *
      */
     public function register(array $data)
     {
         // create Authenticatable model.
         $user = User::create($data);
-        
+
         // return Authenticatable model.
         return $user;
     }
@@ -181,7 +187,7 @@ class CustomUserRegistrar implements UserRegistrar, ShouldActivate
 
     /**
      * Notify if user to activate the user with the token provided.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Model|Authenticatable $user
      * @param string $token
      * @return void
@@ -193,7 +199,7 @@ class CustomUserRegistrar implements UserRegistrar, ShouldActivate
 
     /**
      * Activation method by the token provided.
-     * 
+     *
      * @param string $token
      * @return \Illuminate\Http\Response
      */
