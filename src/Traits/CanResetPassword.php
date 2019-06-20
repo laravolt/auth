@@ -2,7 +2,9 @@
 
 namespace Laravolt\Auth\Traits;
 
+use Illuminate\Support\Facades\Mail;
 use Laravolt\Auth\Notifications\ResetPassword;
+use Laravolt\Password\ResetLinkMail;
 
 trait CanResetPassword
 {
@@ -24,6 +26,7 @@ trait CanResetPassword
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPassword($token));
+        $email = $this->getEmailForPasswordReset();
+        Mail::to($email)->send(new ResetLinkMail($token, $email));
     }
 }
