@@ -17,6 +17,11 @@ return [
         'status_before' => 'PENDING',
         'status_after'  => 'ACTIVE',
     ],
+    'password' => [
+        'forgot' => [
+            'implementation' => \Laravolt\Auth\DefaultForgotPassword::class,
+        ],
+    ],
     'cas'          => [
         'enable' => false,
     ],

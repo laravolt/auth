@@ -52,7 +52,8 @@ class ForgotPasswordController extends Controller
      */
     public function store(ForgotPassword $request)
     {
-        $user = app(config('auth.providers.users.model'))->query()->whereEmail($request->email)->firstOrfail();
+        $identifier = config('laravolt.auth.identifier');
+        $user = app('laravolt.auth.password.forgot')->getUserByIdentifier($request->get($identifier));
         $response = app('password')->sendResetLink($user);
 
         if ($response === Password::RESET_LINK_SENT) {
@@ -65,25 +66,5 @@ class ForgotPasswordController extends Controller
         return back()->withErrors(
             ['email' => trans($response)]
         );
-    }
-
-    /**
-     * Get the Closure which is used to build the password reset notification.
-     *
-     * @return \Closure
-     */
-    protected function resetNotifier()
-    {
-        //
-    }
-
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return Password::broker();
     }
 }

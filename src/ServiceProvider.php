@@ -4,6 +4,7 @@ namespace Laravolt\Auth;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Laravolt\Auth\Contracts\ForgotPassword;
 use Laravolt\Auth\Registration\UserRegistrar;
 
 /**
@@ -33,6 +34,17 @@ class ServiceProvider extends BaseServiceProvider
             $class = config('laravolt.auth.login.implementation');
 
             return new $class;
+        });
+
+        $this->app->bind('laravolt.auth.password.forgot', function () {
+            $class = app(config('laravolt.auth.password.forgot.implementation'));
+            if ($class instanceof ForgotPassword) {
+                return $class;
+            }
+
+            throw new \InvalidArgumentException(
+                sprintf("We expect %s instance, but you give %s.", ForgotPassword::class, get_class($class))
+            );
         });
     }
 
