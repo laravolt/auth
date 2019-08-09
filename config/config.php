@@ -20,6 +20,7 @@ return [
     'password' => [
         'forgot' => [
             'implementation' => \Laravolt\Auth\DefaultForgotPassword::class,
+            'identifier' => null
         ],
     ],
     'cas'          => [
