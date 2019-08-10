@@ -53,8 +53,8 @@ class ForgotPasswordController extends Controller
     {
         $this->validate($request, app('laravolt.auth.password.forgot')->rules());
 
-        $identifier = config('laravolt.auth.identifier');
-        $user = app('laravolt.auth.password.forgot')->getUserByIdentifier($request->get($identifier));
+        $identifierColumn = config('laravolt.auth.password.forgot.identifier') ?? config('laravolt.auth.identifier');
+        $user = app('laravolt.auth.password.forgot')->getUserByIdentifier($request->get($identifierColumn));
 
         $response = Password::INVALID_USER;
         if ($user) {
