@@ -6,7 +6,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Laravolt\Auth\Http\Requests\ForgotPassword;
 
 class ForgotPasswordController extends Controller
 {
@@ -50,11 +49,17 @@ class ForgotPasswordController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(ForgotPassword $request)
+    public function store(Request $request)
     {
+        $this->validate($request, app('laravolt.auth.password.forgot')->rules());
+
         $identifier = config('laravolt.auth.identifier');
         $user = app('laravolt.auth.password.forgot')->getUserByIdentifier($request->get($identifier));
-        $response = app('password')->sendResetLink($user);
+
+        $response = Password::INVALID_USER;
+        if ($user) {
+            $response = app('password')->sendResetLink($user);
+        }
 
         if ($response === Password::RESET_LINK_SENT) {
             return back()->withSuccess(trans($response));
