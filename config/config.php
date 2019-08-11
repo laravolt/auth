@@ -6,6 +6,8 @@ return [
     'identifier'   => 'email',
     'login'        => [
         'implementation' => \Laravolt\Auth\DefaultLogin::class,
+        'max_attempts' => 5,
+        'decay_minutes' => 1,
     ],
     'registration' => [
         'enable'         => true,

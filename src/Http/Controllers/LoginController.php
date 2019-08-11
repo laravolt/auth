@@ -48,6 +48,10 @@ class LoginController extends Controller
      */
     protected $login;
 
+    protected $maxAttempts = 5;
+
+    protected $decayMinutes = 1;
+
     /**
      * Create a new controller instance.
      *
@@ -60,6 +64,10 @@ class LoginController extends Controller
         $this->redirectTo = config('laravolt.auth.redirect.after_login');
 
         $this->ldapEnabled = config('laravolt.auth.ldap.enable');
+
+        $this->maxAttempts = config('laravolt.auth.login.max_attempts');
+
+        $this->decayMinutes = config('laravolt.auth.login.decay_minutes');
 
         $this->login = app('laravolt.auth.login');
     }
