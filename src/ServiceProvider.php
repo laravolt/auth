@@ -46,6 +46,17 @@ class ServiceProvider extends BaseServiceProvider
                 sprintf("We expect %s instance, but you give %s.", ForgotPassword::class, get_class($class))
             );
         });
+
+        $this->app->bind('laravolt.auth.password.reset', function () {
+            $class = app(config('laravolt.auth.password.reset.implementation'));
+            if ($class instanceof ForgotPassword) {
+                return $class;
+            }
+
+            throw new \InvalidArgumentException(
+                sprintf("We expect %s instance, but you give %s.", ForgotPassword::class, get_class($class))
+            );
+        });
     }
 
     /**

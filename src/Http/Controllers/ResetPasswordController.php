@@ -6,6 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -50,5 +51,36 @@ class ResetPasswordController extends Controller
         return view('auth::reset')->with(
             ['token' => $token, 'email' => urldecode($request->email)]
         );
+    }
+
+    public function reset(Request $request)
+    {
+        $this->validate($request, app('laravolt.auth.password.reset')->rules());
+
+        $identifierColumn = config('laravolt.auth.password.reset.identifier') ?? config('laravolt.auth.identifier');
+        $user = app('laravolt.auth.password.reset')->getUserByIdentifier($request->get($identifierColumn));
+
+        $response = app('password')->changePasswordByToken(
+            $user,
+            $request->password,
+            $request->token
+        );
+
+        return $response == Password::PASSWORD_RESET
+            ? $this->sendResetResponse($request, $response)
+            : $this->sendResetFailedResponse($request, $response);
+    }
+
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetResponse(Request $request, $response)
+    {
+        return redirect($this->redirectPath())
+            ->with('success', trans($response));
     }
 }
