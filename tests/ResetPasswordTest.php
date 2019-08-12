@@ -52,6 +52,8 @@ class ResetPasswordTest extends TestCase
      */
     public function it_can_reset_password()
     {
+        $this->app['config']->set('laravolt.auth.password.reset.auto_login', true);
+
         Route::get('reset-password-success', function () {
             return 'login success';
         });
@@ -64,6 +66,22 @@ class ResetPasswordTest extends TestCase
              ->seePageIs('reset-password-success');
 
         $this->seeIsAuthenticated();
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_reset_password_and_redirect_to_login_page()
+    {
+        $this->app['config']->set('laravolt.auth.password.reset.auto_login', false);
+        $this->app['config']->set('laravolt.auth.redirect.after_reset_password', '/auth/login');
+
+        $this->visitRoute('auth::reset', $this->token)
+             ->type($this->email, 'email')
+             ->type('1nd0n351a r4y4', 'password')
+             ->type('1nd0n351a r4y4', 'password_confirmation')
+             ->press(trans('auth::auth.reset_password'))
+             ->seeRouteIs('auth::login');
     }
 
     /**

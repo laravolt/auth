@@ -66,9 +66,15 @@ class ResetPasswordController extends Controller
             $request->token
         );
 
-        return $response == Password::PASSWORD_RESET
-            ? $this->sendResetResponse($request, $response)
-            : $this->sendResetFailedResponse($request, $response);
+        if ($response == Password::PASSWORD_RESET) {
+            if (config('laravolt.auth.password.reset.auto_login')) {
+                auth()->login($user);
+            }
+
+            return $this->sendResetResponse($request, $response);
+        }
+
+        return $this->sendResetFailedResponse($request, $response);
     }
 
     /**

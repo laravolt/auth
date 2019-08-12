@@ -26,7 +26,8 @@ return [
         ],
         'reset' => [
             'implementation' => \Laravolt\Auth\DefaultResetPassword::class,
-            'identifier' => null
+            'identifier' => null,
+            'auto_login' => false,
         ],
     ],
     'cas'          => [
