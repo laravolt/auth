@@ -8,6 +8,8 @@
         </div>
     @endif
 
+    <h3 class="ui header horizontal divider section">@lang('auth::auth.login')</h3>
+
     <form class="ui form" method="POST" action="{{ route('auth::login') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -27,7 +29,7 @@
         <div class="ui field">
             <button type="submit" class="ui fluid button primary">@lang('auth::auth.login')</button>
         </div>
-        <div class="ui equal width grid field">
+        <div class="ui equal width grid">
             <div class="column left aligned">
                 <div class="ui checkbox">
                     <input type="checkbox" name="remember" {{ request()->old('remember')?'checked':'' }}>

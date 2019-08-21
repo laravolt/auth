@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <h3 class="ui header horizontal divider section">@lang('auth::auth.register')</h3>
+
     <form class="ui form" method="POST" action="{{ route('auth::register') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
