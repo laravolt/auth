@@ -15,7 +15,7 @@ return [
         'implementation' => \Laravolt\Auth\DefaultUserRegistrar::class,
     ],
     'activation'   => [
-        'enable'        => false,
+        'enable'        => true,
         'status_before' => 'PENDING',
         'status_after'  => 'ACTIVE',
     ],
