@@ -21,7 +21,7 @@ return [
     'register'                 => 'Register',
     'register_here'            => 'Register Here',
     'registration_success'     => 'Registration success. Please check your email to activate your account.',
-    'remember'                 => 'Remember me',
+    'remember'                 => 'Stay signed in',
     'reset_password'           => 'Reset Password',
     'send_reset_password_link' => 'Send Reset Password Link',
 ];

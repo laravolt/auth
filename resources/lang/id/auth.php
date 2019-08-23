@@ -21,7 +21,7 @@ return [
     'register'                 => 'Daftar',
     'register_here'            => 'Daftar disini',
     'registration_success'     => 'Registrasi berhasil. Silakan cek email Anda untuk melakukan aktivasi akun.',
-    'remember'                 => 'Ingat saya di komputer ini',
+    'remember'                 => 'Ingat sesi login saya',
     'reset_password'           => 'Reset Password',
     'send_reset_password_link' => 'Kirim Link Reset Password',
 ];
