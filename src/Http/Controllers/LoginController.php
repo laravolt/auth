@@ -103,6 +103,8 @@ class LoginController extends Controller
         $user = $ldapService->eloquentUser();
 
         if ($user && auth()->login($user)) {
+            $request->merge(['_auth' => 'ldap']);
+
             return $this->sendLoginResponse($request);
         }
 
@@ -128,8 +130,8 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  mixed $user
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
@@ -142,7 +144,7 @@ class LoginController extends Controller
     /**
      * The user has been logged out
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     protected function loggedOut(Request $request)

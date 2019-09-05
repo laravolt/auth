@@ -16,6 +16,8 @@ class Login extends CasController
 
         if ($user && auth()->login($user)) {
             if (method_exists($loginService, 'authenticated')) {
+                $request->merge(['_auth' => 'cas']);
+
                 return $loginService->authenticated($request, $user);
             }
 
