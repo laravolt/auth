@@ -44,7 +44,7 @@ class LoginTest extends TestCase
              ->type('andi@laravolt.com', 'email')
              ->type('asdf1234', 'password')
              ->press('Login')
-             ->seePageIs(config('laravolt.auth.redirect.after_login'));
+             ->seeRouteIs('auth::login');
     }
 
     /**
@@ -81,7 +81,7 @@ class LoginTest extends TestCase
             ->type('andi@laravolt.com', 'email')
             ->type('asdf1234', 'password')
             ->press('Login')
-            ->seePageIs(config('laravolt.auth.redirect.after_login'));
+            ->seeRouteIs('auth::login');
     }
 
     /**
