@@ -3,6 +3,7 @@
 namespace Laravolt\Auth\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -55,6 +56,10 @@ class ForgotPasswordController extends Controller
 
         $identifierColumn = config('laravolt.auth.password.forgot.identifier') ?? config('laravolt.auth.identifier');
         $user = app('laravolt.auth.password.forgot')->getUserByIdentifier($request->get($identifierColumn));
+
+        if ($user instanceof RedirectResponse) {
+            return $user;
+        }
 
         $response = Password::INVALID_USER;
         if ($user) {
