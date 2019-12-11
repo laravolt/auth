@@ -17,7 +17,6 @@ trait Activation
 
         $user = DB::transaction(
             function () use ($request) {
-
                 $user = $this->create($request->all());
 
                 if ($user instanceof Model) {
