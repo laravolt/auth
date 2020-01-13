@@ -94,8 +94,8 @@ class ForgotPasswordController extends Controller
         $mail_parts = explode("@", $email);
         $domain_parts = $mail_parts[1];
 
-        $mail_parts[0] = mask($mail_parts[0], 3, 2); // show first 3 letters and last 2 letter
-        $domain_parts = mask($domain_parts, 3, 2);
+        $mail_parts[0] = $this->mask($mail_parts[0], 3, 2); // show first 3 letters and last 2 letter
+        $domain_parts = $this->mask($domain_parts, 3, 2);
         $mail_parts[1] = $domain_parts;
 
         return implode("@", $mail_parts);
