@@ -67,7 +67,9 @@ class ForgotPasswordController extends Controller
         }
 
         if ($response === Password::RESET_LINK_SENT) {
-            return back()->withSuccess(trans($response));
+            $email = $user->getEmailForPasswordReset();
+
+            return back()->withSuccess(trans($response, ['email' => $email, 'emailMasked' => $this->maskEmail($email)]));
         }
 
         // If an error was returned by the password broker, we will get this message
@@ -76,5 +78,26 @@ class ForgotPasswordController extends Controller
         return back()->withErrors(
             ['email' => trans($response)]
         );
+    }
+
+    protected function mask($str, $first, $last)
+    {
+        $len = strlen($str);
+        $toShow = $first + $last;
+
+        return substr($str, 0, $len <= $toShow ? 0 : $first) . str_repeat("*",
+                $len - ($len <= $toShow ? 0 : $toShow)) . substr($str, $len - $last, $len <= $toShow ? 0 : $last);
+    }
+
+    protected function maskEmail($email)
+    {
+        $mail_parts = explode("@", $email);
+        $domain_parts = $mail_parts[1];
+
+        $mail_parts[0] = mask($mail_parts[0], 3, 2); // show first 3 letters and last 2 letter
+        $domain_parts = mask($domain_parts, 3, 2);
+        $mail_parts[1] = $domain_parts;
+
+        return implode("@", $mail_parts);
     }
 }
